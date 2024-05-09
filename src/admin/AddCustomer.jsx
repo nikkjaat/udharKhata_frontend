@@ -97,11 +97,11 @@ export default function AddCustomer(props) {
       if (response.status === 200) {
         console.log("Add");
         setDisabledBtn(true);
-        props.setAlert(true);
+        setAddCustomer(false);
         props.setAlertType("success");
         props.setAlertMessage(response.data.message);
         authCtx.refreshHandler();
-        setAddCustomer(false);
+        props.setAlert(true);
       } else {
         // Handle other successful status codes (if needed)
       }
