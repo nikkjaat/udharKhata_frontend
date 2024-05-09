@@ -66,10 +66,10 @@ export default function AddCustomer(props) {
         }
         if (error.response.status === 500) {
           console.log("Customer already exists");
-          props.setAlert(true);
           props.setAlertType("warning");
           props.setAlertMessage(error.response.data.error);
           alert(error.response.data.error);
+          props.setAlert(true);
         }
       }
     }
