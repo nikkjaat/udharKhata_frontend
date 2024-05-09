@@ -50,32 +50,44 @@ export default function Login() {
     e.preventDefault();
 
     if (admin) {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/admin/login`,
-        {
-          number,
-          password,
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/admin/login`,
+          {
+            number,
+            password,
+          }
+        );
+        console.log(response);
+        if (response.status === 200) {
+          authCtx.refreshHandler();
+          authCtx.loginHandler(response.data.authToken);
+          navigate("/");
         }
-      );
-      console.log(response);
-      if (response.status === 200) {
-        authCtx.refreshHandler();
-        authCtx.loginHandler(response.data.authToken);
-        navigate("/");
+      } catch (error) {
+        if (error) {
+          console.log(error.response);
+        }
       }
     } else {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/login`,
-        {
-          number,
-          otp: OTP,
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/user/login`,
+          {
+            number,
+            otp: OTP,
+          }
+        );
+        console.log(response);
+        if (response.status === 200) {
+          authCtx.refreshHandler();
+          authCtx.loginHandler(response.data.authToken);
+          navigate(`/user`);
         }
-      );
-      console.log(response);
-      if (response.status === 200) {
-        authCtx.refreshHandler();
-        authCtx.loginHandler(response.data.authToken);
-        navigate(`/user`);
+      } catch (error) {
+        if (error) {
+          console.log(error.response);
+        }
       }
     }
   };
