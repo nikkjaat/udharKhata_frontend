@@ -66,10 +66,10 @@ export default function AddCustomer(props) {
         }
         if (error.response.status === 500) {
           console.log("Customer already exists");
+          props.setAlert(true);
           props.setAlertType("warning");
           props.setAlertMessage(error.response.data.error);
           alert(error.response.data.error);
-          props.setAlert(true);
         }
       }
     }
@@ -97,11 +97,11 @@ export default function AddCustomer(props) {
       if (response.status === 200) {
         console.log("Add");
         setDisabledBtn(true);
-        setAddCustomer(false);
+        props.setAlert(true);
         props.setAlertType("success");
         props.setAlertMessage(response.data.message);
         authCtx.refreshHandler();
-        props.setAlert(true);
+        setAddCustomer(false);
       } else {
         // Handle other successful status codes (if needed)
       }
