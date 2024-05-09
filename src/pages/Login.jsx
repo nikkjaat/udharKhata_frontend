@@ -52,7 +52,7 @@ export default function Login() {
     if (admin) {
       try {
         const response = await axios.post(
-          `https://udharkhata-backend.onrender.com/admin/login`,
+          `${import.meta.env.VITE_BACKEND_URL}/admin/login`,
           {
             number,
             password,
@@ -72,7 +72,7 @@ export default function Login() {
     } else {
       try {
         const response = await axios.post(
-          `https://udharkhata-backend.onrender.com/user/login`,
+          `${import.meta.env.VITE_BACKEND_URL}/user/login`,
           {
             number,
             otp: OTP,

@@ -21,9 +21,9 @@ export const AuthContextProvider = (props) => {
   // const socket = io("http://localhost:4000");
   const socket = useRef();
 
-  useEffect(() => {
-    socket.current = io("ws://localhost:9000");
-  }, []);
+  // useEffect(() => {
+  //   socket.current = io("ws://localhost:9000");
+  // }, []);
 
   const refreshHandler = () => {
     setRefresh(!refresh);
