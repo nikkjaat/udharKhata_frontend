@@ -1,0 +1,97 @@
+.navbar {
+  background-color: var(---mainColor);
+  width: 100vw;
+  height: 3.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  box-shadow: -1px 2px 10px -8px black;
+  z-index: 100;
+}
+
+.navbar a {
+  color: var(---textColor) !important;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 1.3em;
+}
+
+.navbar form {
+  display: grid;
+}
+
+.navbar input {
+  margin: 0 auto;
+  outline: none;
+  box-shadow: inset 0px 0px 20px -10px rgb(144, 73, 3);
+  color: black;
+  padding: 0.9em;
+  font-weight: 600;
+  height: 2.1rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 1em;
+  width: 100%;
+  color: var(---textColor);
+  transition: 0.3s;
+}
+
+.navbar input::placeholder {
+  color: var(---textColor);
+}
+
+.navbar input:focus {
+  background-color: rgba(0, 0, 0, 0.136);
+}
+
+.container form > div {
+  background-color: rgba(0, 0, 0, 0.742) !important;
+  max-height: 18em;
+  overflow: auto;
+  position: fixed;
+  border-bottom-right-radius: 1em;
+  border-bottom-left-radius: 1em;
+  padding: 0 1em;
+  top: 3.5em;
+  width: 16em;
+}
+
+.container form > div > div {
+  align-items: center;
+  width: 100%;
+  background-color: rgb(240, 248, 255);
+  margin: 1em auto !important;
+  text-align: center;
+  padding: 0.5em;
+  border-radius: 0.3em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .navbar input {
+    width: 11em !important;
+  }
+}
+
+@media (max-width: 455px) {
+  .navbar input {
+    height: 0.5em !important;
+    width: 10em !important;
+    font-size: 0.8em;
+  }
+
+  .navbar > a:first-child {
+    font-size: 0.7em;
+    /* display: none; */
+  }
+
+  .navbar > a:last-child {
+    font-size: 1em;
+  }
+
+  .container form > div {
+    width: 11rem;
+  }
+}

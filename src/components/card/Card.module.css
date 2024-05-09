@@ -1,0 +1,110 @@
+.card {
+  width: 190px;
+  height: 254px;
+  padding: 2rem 1.5rem;
+  border-radius: 40px;
+  background: var(---lightCardColor);
+  box-shadow: var(---boxShadow);
+  /* box-shadow: 15px 15px 30px rgb(25, 25, 25), -15px -15px 30px rgb(60, 60, 60); */
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.notificationDot {
+  /* position: absolute;
+  right: 2em; */
+  transition: transform 0.2s ease;
+  width: 7px;
+  height: 7px;
+  background-color: rgba(255, 0, 0, 0.642);
+  border-radius: 50%;
+  transform: translateY(100%);
+}
+
+.card_info {
+  display: flex;
+  gap: 0.4em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.card_info div:not(:first-child) {
+  font-weight: 500;
+}
+
+/*Image*/
+.card_avatar {
+  --size: 60px;
+  background: linear-gradient(to top, #f1e1c1 0%, #fcbc97 100%);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+/*Card footer*/
+.card_social {
+  transform: translateY(200%);
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.card_social__item {
+  list-style: none;
+}
+
+.card_social__item svg {
+  display: block;
+  height: 18px;
+  width: 18px;
+  fill: #515f65;
+  cursor: pointer;
+  transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+/*Text*/
+.card_title {
+  color: #333;
+  font-size: 1.5em;
+  font-weight: 700;
+  line-height: 2rem;
+}
+
+.card_subtitle {
+  color: #859ba8;
+  font-size: 0.8em;
+}
+
+/*Hover*/
+.card:hover {
+  box-shadow: 0 8px 50px #23232333;
+}
+
+.card:hover .notificationDot {
+  transform: translateY(-5%);
+}
+
+.card:hover .card_info {
+  transform: translateY(-5%);
+}
+
+.card:hover .card_social {
+  transform: translateY(100%);
+  opacity: 1;
+}
+
+.card_social__item a svg:hover {
+  fill: #232323;
+  transform: scale(1.1);
+}
+
+.card_avatar:hover {
+  transform: scale(1.1);
+}

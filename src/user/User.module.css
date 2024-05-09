@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(---lightBodyColor);
+  padding: 6rem 1rem 1rem;
+}
+
+.cardContainer {
+  /* background-color: rgb(57, 148, 227); */
+  width: 100%;
+  display: flex !important;
+  justify-content: space-evenly !important;
+  gap: 1em;
+  padding: 1em;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: rgb(230, 230, 230) !important;
+  /* margin: 1rem; */
+  flex: 1;
+  height: 19rem !important;
+  min-width: 15rem !important;
+  max-width: 15rem !important;
+}

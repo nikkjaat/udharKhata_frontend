@@ -1,0 +1,24 @@
+.alert {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  top: -4.2em;
+  animation: animate 3s ease-in-out 0s 1;
+}
+
+@keyframes animate {
+  0% {
+    top: -4rem;
+  }
+  20% {
+    top: 0;
+  }
+  80% {
+    top: 0;
+  }
+  100% {
+    top: -4rem;
+  }
+}

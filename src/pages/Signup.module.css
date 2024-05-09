@@ -1,0 +1,49 @@
+.container {
+  background-color: rgba(176, 176, 176, 0);
+  /* width: 100vw; */
+  min-width: 20rem !important;
+  margin-top: 9rem;
+  scroll-behavior: auto;
+  overflow: hidden !important;
+}
+
+.container form {
+  background-color: var(---mainColor);
+  padding: 2em;
+  border-radius: 1em;
+}
+
+.container input {
+  margin: 0 auto;
+  box-shadow: inset 0px 0px 15px -10px black;
+  color: black;
+  padding: 0.9em;
+  font-weight: 600;
+  height: 2.1rem;
+  background-color: transparent;
+  border-radius: 1em;
+  width: 100%;
+  color: var(---textColor);
+  outline: none !important;
+  border: none !important;
+  transition: 0.3s;
+}
+
+.container input::placeholder {
+  color: rgba(240, 248, 255, 0.826);
+  outline: none !important;
+  border: none !important;
+}
+
+.container input:focus {
+  background-color: rgba(0, 0, 0, 0.095);
+}
+
+.container label {
+  color: var(---textColor);
+  font-weight: bold;
+}
+
+.signupLink {
+  float: right;
+}

@@ -1,0 +1,118 @@
+.navbar {
+  background-color: var(---mainColor);
+  width: 100vw;
+  height: 4.4rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100% !important;
+  box-shadow: -1px 2px 10px -8px black;
+  z-index: 100;
+  display: flex;
+  gap: 0.3em;
+  flex-wrap: nowrap;
+}
+
+.navbar div:not(:nth-child(2)) {
+  flex: 1;
+  cursor: default;
+  min-width: 6.6rem;
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+  color: var(---textColor);
+}
+
+.Btn {
+  min-width: 90% !important;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(15, 15, 15);
+  border: none;
+  color: white;
+  font-weight: 600;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.6s;
+}
+
+.iconsContainer {
+  /* background-color: rgb(93, 93, 93); */
+  box-shadow: inset 3px 3px 15px -12px black, 3px 3px 1px rgba(0, 0, 0, 0.49);
+  padding: 0.6em 1.3em;
+  border-radius: 0.5em;
+  flex: 0.4;
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.iconsContainer:hover {
+  transform: translateY(1px);
+  box-shadow: inset 3px 3px 15px -10px black,
+    inset -1px -1px 15px -14px rgb(0, 0, 0);
+}
+
+.iconsContainer a {
+  font-size: 1.3em;
+  text-align: center;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.534) !important;
+  transition: transform 0.2s ease;
+  background-color: rgb(248, 248, 248);
+  border-radius: 0.3em;
+  display: flex;
+  flex: 1;
+  padding: 0.1em 0.4em;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconsContainer a:hover {
+  color: rgb(0, 0, 0) !important;
+  transform: scale(1.1);
+}
+
+.chat {
+  font-size: 1em;
+  position: relative;
+  top: -0.3em;
+  right: 0.2em;
+}
+
+.svgIcon {
+  width: 16px;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.Btn::before {
+  max-width: 100%;
+  height: 130px;
+  position: absolute;
+  content: "";
+  background-color: white;
+  border-radius: 50%;
+  left: -100%;
+  top: 0;
+  transition-duration: 0.3s;
+  mix-blend-mode: difference;
+}
+
+.Btn:hover::before {
+  transition-duration: 0.3s;
+  transform: translate(100%, -50%);
+  border-radius: 0;
+}
+
+.Btn:active {
+  transform: scale(0.98);
+  transition-duration: 01.3s;
+}
