@@ -271,8 +271,8 @@ export default function CustomerDetails(props) {
     <>
       <div className={styles.userDetails}>
         <div>
-          <h5>
-            Name :{" "}
+          <div className={styles.name}>
+            <p>Name : </p>
             <input
               readOnly={!edit}
               onChange={(e) => {
@@ -282,9 +282,9 @@ export default function CustomerDetails(props) {
               type="text"
               value={name}
             />
-          </h5>
-          <p>
-            {otpVerify ? "Enter New Number :" : "Customer Number :"}
+          </div>
+          <div className={styles.number}>
+            <p>{otpVerify ? "Enter New Number :" : "Customer Number :"}</p>
             <input
               readOnly={!otpVerify}
               className={otpVerify && styles.input}
@@ -332,7 +332,7 @@ export default function CustomerDetails(props) {
                 )}
               </span>
             )}
-          </p>
+          </div>
           {getOTP && (
             <p>
               Enter OTP :

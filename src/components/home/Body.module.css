@@ -12,6 +12,23 @@
   display: block;
   background-color: var(---mainColor);
   min-height: 90vh;
+  transition: 0.3s;
+  min-width: 15rem !important;
+  max-width: 15rem !important;
+}
+
+.hideSideNav {
+  /* flex: 1; */
+  display: block;
+  width: 2rem !important;
+  background-color: var(---mainColor);
+  min-width: 1rem !important;
+  max-width: 1rem !important;
+  min-height: 90vh;
+}
+
+.hideSideNav div:last-child {
+  display: none;
 }
 
 .sideNavChild {
@@ -19,7 +36,7 @@
   margin: 0 auto;
 }
 .inputContainer {
-  width: 100%;
+  width: 13em;
   margin: 1em auto;
   padding: 1em 0;
   position: relative;
@@ -28,6 +45,18 @@
 .userDetails {
   display: flex;
   justify-content: space-between;
+}
+
+.userDetails div:first-child {
+  /* background-color: #fff; */
+  display: flex;
+}
+
+.userDetails .name {
+  /* background-color: #fff; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .userDetails div input {
@@ -46,7 +75,7 @@
   background: none;
   border: none;
   outline: none;
-  width: 14em;
+  width: fit-content;
   cursor: text;
   padding: 10px 20px;
   /* border-radius: 9999px; */
@@ -127,16 +156,17 @@ button:disabled {
   color: rgba(240, 248, 255, 0.826);
 }
 
-.sideNav {
-  min-width: 11rem;
+.hideSideNav {
+  max-width: 2em !important;
 }
 
-.sideNav ul {
+.customerNames {
+  width: 13em;
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
 }
 
-.sideNav ul li {
+.customerNames li {
   width: 100%;
   margin: 1em auto !important;
   text-align: center;
@@ -149,7 +179,7 @@ button:disabled {
 }
 
 .customerNames p {
-  width: 100%;
+  width: 13em;
   margin: 1em auto !important;
   text-align: center;
   background-color: var(---textColor);
@@ -191,6 +221,7 @@ hr {
   background-color: rgb(80, 80, 80);
   padding: 1em;
   position: relative;
+  /* margin-left: 1em; */
 }
 
 .userData {
@@ -392,6 +423,10 @@ hr {
   /* background-color: #fff; */
 }
 
+h5 {
+  width: 24rem !important;
+}
+
 @media screen and (max-width: 762px) {
   .addData div {
     flex: 1;
@@ -402,10 +437,6 @@ hr {
   }
   .addProduct {
     top: 7rem;
-  }
-
-  h3 {
-    font-size: 1.6em;
   }
 
   .chatButton a {
@@ -420,10 +451,6 @@ hr {
     font-size: 1.6em;
     min-width: 5rem !important;
   }
-
-  .userDetails div input {
-    width: 10em;
-  }
 }
 
 @media (max-width: 672px) {
@@ -433,41 +460,38 @@ hr {
 
     /* background-color: aliceblue; */
   }
-  h3 {
-    font-size: 1.3em;
+
+  .userDetails div .input {
+    background: none;
+    border: none;
+    outline: none;
+    width: 7em;
+    cursor: text;
+    padding: 10px 20px;
+    /* border-radius: 9999px; */
+    /* box-shadow: inset 2px 5px 10px rgb(5, 5, 5); */
+    border-bottom: 2px solid white;
+    color: #fff;
+  }
+
+  .addProduct {
+    height: 2em;
+    width: 9rem;
+    top: 10.5rem;
+    left: 4em;
+    font-size: 1em;
+    right: 1em;
   }
 }
 
 @media (max-width: 550px) {
-  .sideNav {
-    display: none;
-  }
-
-  .addCustomerButton {
-    display: block;
-
-    /* background-color: aqua; */
-    margin: -4.8em 0 0;
-  }
-
-  .addCustomer {
-    margin-top: 0.4em;
-    background-color: var(---mainColor);
-    padding: 1em;
-    width: 21em;
-    border-radius: 1em;
-    z-index: 100 !important;
-  }
-
   .addProduct {
-    width: 6rem;
-    top: 6rem;
+    height: 2em;
+    width: 7rem;
+    top: 10rem;
+    left: 2em;
     font-size: 0.9em;
     right: 1em;
-  }
-
-  h3 {
-    font-size: 1em;
   }
 
   .chatButton a {
@@ -485,19 +509,23 @@ hr {
   }
 
   p {
-    font-size: 0.7em;
+    font-size: 0.8em;
   }
 }
 
 @media (max-width: 270px) {
   .addProduct {
-    /* width: 6rem; */
-    /* top: 8rem; */
+    height: 2em;
+    width: 7rem;
+    top: 9.6rem;
+    left: 2em;
     font-size: 0.9em;
+    right: 1em;
   }
 
-  h3 {
-    font-size: 0.7em;
+  h5 {
+    font-size: 1em;
+    /* width: 24em; */
   }
 
   p {

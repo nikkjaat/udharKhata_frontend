@@ -24,6 +24,7 @@
     "@stripe/react-stripe-js": "^2.6.2",
     "@stripe/stripe-js": "^3.2.0",
     "axios": "^1.6.8",
+    "bootstrap-icons": "^1.11.3",
     "jwt-decode": "^4.0.0",
     "mongodb": "^6.5.0",
     "react": "^18.2.0",

@@ -33,6 +33,8 @@ export default function Home() {
   const [alert, setAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [showNav, setShowNav] = useState(false);
+  const containerRef = useRef();
 
   // console.log(products);
   useEffect(() => {
@@ -234,6 +236,19 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (containerRef.current && containerRef.current.contains(event.target)) {
+        // Clicked outside navbar
+        setShowNav(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showNav]);
+
   return (
     <>
       <Error
@@ -246,7 +261,24 @@ export default function Home() {
       <Navbar userHandler={userHandler} />
 
       <div className={styles.body}>
-        <div className={styles.sideNav}>
+        <div className={`${styles.sideNav} ${!showNav && styles.hideSideNav}`}>
+          <div
+            onClick={() => {
+              setShowNav(!showNav);
+            }}
+            style={{
+              background: "black",
+              width: "fit-content",
+              marginLeft: "auto",
+              padding: ".3em .4em .4em",
+              borderRadius: ".3em 0 0 .3em",
+            }}>
+            {showNav ? (
+              <i class="bi bi-chevron-double-left"></i>
+            ) : (
+              <i class="bi bi-chevron-double-right"></i>
+            )}
+          </div>
           <div className={styles.sideNavChild}>
             <div>
               <AddCustomer
@@ -267,7 +299,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.container}>
+        <div ref={containerRef} className={styles.container}>
           <CustomerDetails
             customerId={setCustomerId}
             customerData={customerData}
