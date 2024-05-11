@@ -14,7 +14,7 @@
   min-height: 90vh;
   transition: 0.3s;
   min-width: 15rem !important;
-  max-width: 15rem !important;
+  max-width: 16rem !important;
 }
 
 .hideSideNav {
@@ -22,8 +22,8 @@
   display: block;
   width: 2rem !important;
   background-color: var(---mainColor);
-  min-width: 1rem !important;
-  max-width: 1rem !important;
+  min-width: 2rem !important;
+  max-width: 2rem !important;
   min-height: 90vh;
 }
 
@@ -45,39 +45,67 @@
 .userDetails {
   display: flex;
   justify-content: space-between;
+  gap: 2em;
 }
 
-.userDetails div:first-child {
-  /* background-color: #fff; */
-  display: flex;
+.name,
+.number {
+  display: flex !important;
+  /* justify-content: space-between !important; */
+  align-items: center !important;
+  /* height: 3em !important; */
+  margin-top: 0.3em;
 }
 
-.userDetails .name {
-  /* background-color: #fff; */
-  display: flex;
-  justify-content: center;
+.number div input {
+  width: 8em !important;
+}
+
+.number div:first-child {
+  min-width: 9em;
+}
+
+.number > div:last-child {
+  display: flex !important;
+  justify-content: start;
   align-items: center;
+  /* background-color: #fff; */
+  min-width: 13em;
+}
+
+.enterOtpInput {
+  display: flex !important;
+  justify-content: start;
+  align-items: center;
+  /* margin-top: 1em; */
+}
+
+.enterOtpInput div,
+.enterOtpInput .input {
+  width: 7em !important;
+  /* background-color: #fff !important; */
 }
 
 .userDetails div input {
   background: none;
+  height: 100%;
   border: none;
   outline: none;
   width: 14em;
-  padding: 10px 20px;
+  padding: 10px 10px;
   /* border-radius: 9999px; */
   /* box-shadow: inset 2px 5px 10px rgb(5, 5, 5); */
   color: #fff;
   cursor: default;
 }
 
-.userDetails div .input {
+.userDetails .input {
   background: none;
   border: none;
   outline: none;
-  width: fit-content;
+  /* width: fit-content; */
   cursor: text;
-  padding: 10px 20px;
+  padding: 10px 10px;
   /* border-radius: 9999px; */
   /* box-shadow: inset 2px 5px 10px rgb(5, 5, 5); */
   border-bottom: 2px solid white;
@@ -221,6 +249,7 @@ hr {
   background-color: rgb(80, 80, 80);
   padding: 1em;
   position: relative;
+  padding-bottom: 4em !important;
   /* margin-left: 1em; */
 }
 
@@ -465,9 +494,9 @@ h5 {
     background: none;
     border: none;
     outline: none;
-    width: 7em;
+    /* width: 7em; */
     cursor: text;
-    padding: 10px 20px;
+    padding: 10px 10px;
     /* border-radius: 9999px; */
     /* box-shadow: inset 2px 5px 10px rgb(5, 5, 5); */
     border-bottom: 2px solid white;
@@ -476,10 +505,10 @@ h5 {
 
   .addProduct {
     height: 2em;
-    width: 9rem;
-    top: 10.5rem;
-    left: 4em;
-    font-size: 1em;
+    width: 7rem;
+    top: 13.5rem;
+    left: 2em;
+    font-size: 0.9em;
     right: 1em;
   }
 }
@@ -488,10 +517,29 @@ h5 {
   .addProduct {
     height: 2em;
     width: 7rem;
-    top: 10rem;
+    top: 13.5rem;
     left: 2em;
     font-size: 0.9em;
     right: 1em;
+  }
+
+  .name,
+  .number {
+    display: grid !important;
+  }
+  .name {
+    margin-bottom: 2em;
+  }
+
+  .number div {
+    display: flex !important;
+    justify-content: start;
+    align-items: start;
+  }
+
+  .name > input,
+  .number div > input {
+    padding: 10px 0 !important;
   }
 
   .chatButton a {
@@ -509,7 +557,7 @@ h5 {
   }
 
   p {
-    font-size: 0.8em;
+    /* font-size: 0.8em; */
   }
 }
 

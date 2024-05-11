@@ -11,9 +11,9 @@ import Chat from "../components/chat/Chat";
 
 export default function (props) {
   const [message, setMessage] = useState([]);
-  const [addProduct, setAddProduct] = useState(false);
+  // const [props.addProduct, props.setAddProduct] = useState(false);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(null);
   const [productId, setProductId] = useState("");
   const [newMessage, setNewMessage] = useState(false);
   const [value, setValue] = React.useState("");
@@ -103,6 +103,7 @@ export default function (props) {
 
       setName(response.data.product.name);
       setPrice(response.data.product.price);
+      setTotalPrice(response.data.product.price + totalPrice);
     } else {
       try {
         const response = await axios.delete(
@@ -119,7 +120,7 @@ export default function (props) {
         if (response.status === 200) {
           setProductId("");
           authCtx.refreshHandler();
-          setAddProduct(false);
+          props.setAddProduct(false);
           props.setAlert(true);
           props.setAlertType("success");
           props.setAlertMessage(response.data.message);
@@ -192,10 +193,13 @@ export default function (props) {
         if (response.status === 200) {
           unreadNotifications();
           authCtx.refreshHandler();
-          setAddProduct(false);
+          props.setAddProduct(false);
           props.setAlert(true);
           props.setAlertType("success");
           props.setAlertMessage(response.data.message);
+          setName("");
+          setPrice("");
+          setProductId("");
         }
       } catch (error) {
         if (error.request) {
@@ -230,10 +234,13 @@ export default function (props) {
         );
         if (response.status === 200) {
           authCtx.refreshHandler();
-          setAddProduct(false);
+          props.setAddProduct(false);
           props.setAlert(true);
           props.setAlertType("success");
           props.setAlertMessage(response.data.message);
+          setName("");
+          setPrice("");
+          setProductId("");
         }
       } catch (error) {
         if (error.response) {
@@ -259,10 +266,10 @@ export default function (props) {
   // console.log(props.products.products);
   return (
     <>
-      {!addProduct && props.products.products && (
+      {/* {!props.addProduct && props.products.products && (
         <div
           onClick={() => {
-            setAddProduct(!addProduct);
+            props.setAddProduct(!props.addProduct);
             setName("");
             setPrice("");
             setProductId("");
@@ -270,10 +277,9 @@ export default function (props) {
           className={styles.addProduct}>
           <Button>Add Item</Button>
         </div>
-      )}
+      )} */}
       {props.customerData._id && (
         <div className={styles.chatButton}>
-          {" "}
           <Chat
             readMessage={readMessage}
             message={message}
@@ -295,7 +301,7 @@ export default function (props) {
         <div>Product</div>
         <div>Price</div>
       </div>
-      {addProduct && (
+      {props.addProduct && (
         <form onSubmit={submitHandler} className={styles.addData}>
           <input
             onChange={(e) => {
@@ -321,7 +327,7 @@ export default function (props) {
             <button
               className={styles.removeProduct}
               onClick={() => {
-                setAddProduct(!addProduct);
+                props.setAddProduct(!props.addProduct);
                 setName("");
                 setPrice("");
                 setProductId("");
@@ -345,7 +351,7 @@ export default function (props) {
                     <span
                       onClick={() => {
                         eidtNadDeleteHandler("edit", product._id);
-                        setAddProduct(true);
+                        props.setAddProduct(true);
                       }}>
                       <i className="fa fa-edit"></i>
                     </span>

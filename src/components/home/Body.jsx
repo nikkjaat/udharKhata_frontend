@@ -13,6 +13,7 @@ import AddCustomer from "../../admin/AddCustomer";
 import CustomersItems from "../../admin/CustomersItems";
 import CustomerDetails from "../../admin/CustomerDetails";
 import Error from "../Error/Error";
+import BottomNavbar from "../navbar/BottomNavbar";
 
 export default function Home() {
   const authCtx = useContext(AuthContext);
@@ -249,6 +250,10 @@ export default function Home() {
     };
   }, [showNav]);
 
+  const addItem = () => {
+    setAddProduct(true);
+  };
+
   return (
     <>
       <Error
@@ -272,6 +277,10 @@ export default function Home() {
               marginLeft: "auto",
               padding: ".3em .4em .4em",
               borderRadius: ".3em 0 0 .3em",
+              position: "sticky",
+              top: "4em",
+              left: ".3em",
+              zIndex: "100",
             }}>
             {showNav ? (
               <i class="bi bi-chevron-double-left"></i>
@@ -317,8 +326,11 @@ export default function Home() {
               setAlertMessage={setAlertMessage}
               customerData={customerData}
               products={products}
+              setAddProduct={setAddProduct}
+              addProduct={addProduct}
             />
           </div>
+          <BottomNavbar products={products} onClick={addItem} />
         </div>
       </div>
     </>

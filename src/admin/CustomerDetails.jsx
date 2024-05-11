@@ -5,6 +5,7 @@ import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 import Error from "../components/Error/Error";
+import BottomNavbar from "../components/navbar/BottomNavbar";
 
 export default function CustomerDetails(props) {
   const [edit, setEdit] = useState(false);
@@ -272,7 +273,7 @@ export default function CustomerDetails(props) {
       <div className={styles.userDetails}>
         <div>
           <div className={styles.name}>
-            <p>Name : </p>
+            <div>Name : </div>
             <input
               readOnly={!edit}
               onChange={(e) => {
@@ -284,58 +285,60 @@ export default function CustomerDetails(props) {
             />
           </div>
           <div className={styles.number}>
-            <p>{otpVerify ? "Enter New Number :" : "Customer Number :"}</p>
-            <input
-              readOnly={!otpVerify}
-              className={otpVerify && styles.input}
-              onChange={(e) => {
-                inputHandler("number", e.target.value);
-              }}
-              // className={getOTP && styles.input}
-              type="number"
-              value={number}
-            />
-            {edit && (
-              <span style={{}}>
-                {otpVerify ? (
-                  <span
-                    onClick={verifyNewNumber}
-                    style={{
-                      background: "blue",
-                      padding: ".4em .8em",
-                      width: "7em",
-                      height: "2em",
-                      textAlign: "center",
-                      fontSize: ".7em",
-                      borderRadius: "1em",
-                      cursor: "pointer",
-                    }}>
-                    Verify
-                  </span>
-                ) : (
-                  <span
-                    style={{
-                      background: "black",
-                      padding: ".4em .8em",
-                      width: "7em",
-                      height: "2em",
-                      textAlign: "center",
-                      fontSize: ".7em",
-                      borderRadius: "1em",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      getOTPHandle();
-                    }}>
-                    Get OTP
-                  </span>
-                )}
-              </span>
-            )}
+            <div>{otpVerify ? "Enter New Number :" : "Customer Number :"}</div>
+            <div>
+              <input
+                readOnly={!otpVerify}
+                className={otpVerify && styles.input}
+                onChange={(e) => {
+                  inputHandler("number", e.target.value);
+                }}
+                // className={getOTP && styles.input}
+                type="number"
+                value={number}
+              />
+              {edit && (
+                <span style={{}}>
+                  {otpVerify ? (
+                    <span
+                      onClick={verifyNewNumber}
+                      style={{
+                        background: "blue",
+                        padding: ".4em .8em",
+                        width: "7em",
+                        height: "2em",
+                        textAlign: "center",
+                        fontSize: ".7em",
+                        borderRadius: "1em",
+                        cursor: "pointer",
+                      }}>
+                      Verify
+                    </span>
+                  ) : (
+                    <span
+                      style={{
+                        background: "black",
+                        padding: ".4em .8em",
+                        width: "7em",
+                        height: "2em",
+                        textAlign: "center",
+                        fontSize: ".7em",
+                        borderRadius: "1em",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        getOTPHandle();
+                      }}>
+                      Get OTP
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
           </div>
           {getOTP && (
-            <p>
-              Enter OTP :
+            <div className={styles.enterOtpInput}>
+              <div>Enter OTP :</div>
               <input
                 onChange={(e) => {
                   inputHandler("otp", e.target.value);
@@ -380,7 +383,7 @@ export default function CustomerDetails(props) {
                   Submit
                 </span>
               )}
-            </p>
+            </div>
           )}
         </div>
         {props.customerData.name !== "" && (
@@ -444,6 +447,7 @@ export default function CustomerDetails(props) {
           </div>
         )}
       </div>
+      {/* <BottomNavbar /> */}
     </>
   );
 }

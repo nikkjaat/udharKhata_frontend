@@ -1,0 +1,15 @@
+.container {
+  background-color: var(---mainColor);
+  position: fixed;
+  bottom: 0em;
+  height: 3.4em;
+  /* left: 15em; */
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-left: -1em;
+}
+
+.container button {
+}
