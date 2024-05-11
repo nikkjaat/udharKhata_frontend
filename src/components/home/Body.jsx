@@ -330,8 +330,8 @@ export default function Home() {
               addProduct={addProduct}
             />
           </div>
-          <BottomNavbar products={products} onClick={addItem} />
         </div>
+        <BottomNavbar products={products} onClick={addItem} />
       </div>
     </>
   );

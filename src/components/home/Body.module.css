@@ -1,8 +1,10 @@
 .body {
-  margin-top: 3.5rem;
+  /* margin-top: 3.5rem; */
   color: var(---textColor);
-  width: 100%;
+  padding-top: 3.5em;
+  min-width: 100vw;
   display: flex;
+  min-height: 100vh !important;
 }
 
 /* SIDENAV CSS */
@@ -11,14 +13,14 @@
   flex: 1;
   display: block;
   background-color: var(---mainColor);
-  min-height: 90vh;
+  max-height: 100%;
   transition: 0.3s;
   min-width: 15rem !important;
   max-width: 16rem !important;
 }
 
 .hideSideNav {
-  /* flex: 1; */
+  flex: 1;
   display: block;
   width: 2rem !important;
   background-color: var(---mainColor);
@@ -244,7 +246,7 @@ hr {
 /* CONTAINER CSS */
 
 .container {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   flex: 4;
   background-color: rgb(80, 80, 80);
   padding: 1em;
