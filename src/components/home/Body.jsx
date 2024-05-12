@@ -28,9 +28,9 @@ export default function Home() {
   const [price, setPrice] = useState(0);
   const [productId, setProductId] = useState("");
   const [products, setProducts] = useState([]);
-  const [customers, setCustomers] = useState([]);
+  // const [customers, setCustomers] = useState([]);
   const [customerId, setCustomerId] = useState("");
-
+  const [userId, setUserId] = useState("");
   const [alert, setAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
@@ -303,6 +303,7 @@ export default function Home() {
                 setCustomerId={setCustomerId}
                 customerData={setCustomerData}
                 products={setProducts}
+                setUserId={setUserId}
               />
             </div>
           </div>
@@ -330,8 +331,16 @@ export default function Home() {
               addProduct={addProduct}
             />
           </div>
+          {!showNav && (
+            <div className={styles.bottomNavbarContainer}>
+              <BottomNavbar
+                userId={userId}
+                products={products}
+                onClick={addItem}
+              />
+            </div>
+          )}
         </div>
-        <BottomNavbar products={products} onClick={addItem} />
       </div>
     </>
   );

@@ -57,6 +57,7 @@ export default function MyCustomer(props) {
   }, [authCtx.refresh]);
 
   const userHandler = async (userId) => {
+    props.setUserId(userId);
     props.setCustomerId(userId);
     const response = await axios.get(
       `${

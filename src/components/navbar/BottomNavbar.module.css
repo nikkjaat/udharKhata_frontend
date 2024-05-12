@@ -2,8 +2,9 @@
   background-color: var(---mainColor);
   position: fixed;
   bottom: 0em;
-  height: 3.4em;
-  /* left: 15em; */
+  /* height: 3.4em; */
+  padding: 0.5em;
+  left: 0em;
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -11,4 +12,8 @@
 }
 
 .container button {
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
