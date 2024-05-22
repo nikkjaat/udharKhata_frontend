@@ -20,34 +20,36 @@ export default function BottomNavbar(props) {
     }
   }, [props.products]);
 
-  useEffect(() => {
-    const getPaidAmount = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/admin/getpaidamount?customerId=${
-            props.userId
-          }&adminId=${authCtx.userId}`
-        );
-        // console.log(response);
-        if (response.status === 200) {
-          let price = 0;
-          response.data.forEach((item) => {
-            price += item.amount;
-            setPaidAmount(price);
-          });
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 404) {
-            console.log(error.response.data.message);
-          }else{
-            console.log(error.response.data.message);
-          }
+  const getPaidAmount = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/admin/getpaidamount?customerId=${
+          props.userId
+        }&adminId=${authCtx.userId}`
+      );
+      // console.log(response);
+      if (response.status === 200) {
+        let price = 0;
+        response.data.forEach((item) => {
+          price += item.amount;
+          setPaidAmount(price);
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          console.log(error.response.data.message);
+        } else {
+          console.log(error.response.data.message);
         }
       }
-    };
+    }
+  };
+
+  useEffect(() => {
     getPaidAmount();
   }, []);
+
   return (
     <>
       <div className={styles.container}>
@@ -64,7 +66,7 @@ export default function BottomNavbar(props) {
           {totalPrice - paidAmount}
         </button>
         <div>
-          <PayBill userId={props.userId} />
+          <PayBill getPaidAmount={getPaidAmount} userId={props.userId} />
         </div>
         <div>
           <button onClick={props.onClick}>Add Item</button>

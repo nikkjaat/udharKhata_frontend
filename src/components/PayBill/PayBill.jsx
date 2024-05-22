@@ -22,7 +22,7 @@ function PaperComponent(props) {
   );
 }
 
-export default function PayBill({ userId }) {
+export default function PayBill({ userId, getPaidAmount }) {
   const [open, setOpen] = React.useState(false);
   const [amount, setAmount] = React.useState(null);
   const [paidBy, setPaidBy] = React.useState("");
@@ -64,6 +64,7 @@ export default function PayBill({ userId }) {
       if (response.status === 200) {
         console.log(response.data);
         handleClose();
+        getPaidAmount();
       }
     } catch (error) {
       if (error.response) {
