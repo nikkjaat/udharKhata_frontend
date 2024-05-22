@@ -28,7 +28,7 @@ export default function Home() {
   const [price, setPrice] = useState(0);
   const [productId, setProductId] = useState("");
   const [products, setProducts] = useState([]);
-  // const [customers, setCustomers] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [customerId, setCustomerId] = useState("");
   const [userId, setUserId] = useState("");
   const [alert, setAlert] = useState(false);
@@ -281,6 +281,7 @@ export default function Home() {
               top: "4em",
               left: ".3em",
               zIndex: "100",
+              cursor: "pointer",
             }}>
             {showNav ? (
               <i class="bi bi-chevron-double-left"></i>

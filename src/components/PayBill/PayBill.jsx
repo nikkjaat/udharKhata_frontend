@@ -51,7 +51,8 @@ export default function PayBill({ userId }) {
         {
           amount,
           paidBy,
-          userId,
+          customerId: userId,
+          adminId: authCtx.userId,
         },
         {
           headers: {
@@ -67,7 +68,7 @@ export default function PayBill({ userId }) {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 500) {
-          console.log(error.response.message);
+          console.log(error.response);
         }
       }
     }

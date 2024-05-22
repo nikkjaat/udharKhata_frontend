@@ -31,6 +31,8 @@ export default function (props) {
     getNewMessage();
   }, [props.customerData._id]);
 
+  
+
   const getMessage = async () => {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/message/get?conversationId=${
