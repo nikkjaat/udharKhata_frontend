@@ -26,8 +26,8 @@ export default function PayBill({ userId, getPaidAmount }) {
   const [open, setOpen] = React.useState(false);
   const [amount, setAmount] = React.useState(null);
   const [paidBy, setPaidBy] = React.useState("");
+  // const [userId, setUserId] = React.useState(id);
   const authCtx = React.useContext(AuthContext);
-
   const handleClickOpen = () => {
     setOpen(true);
   };

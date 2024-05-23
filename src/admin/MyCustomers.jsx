@@ -7,9 +7,8 @@ export default function MyCustomer(props) {
   const [holdTimeout, setHoldTimeout] = useState(null);
   const [hold, setHold] = useState(false);
   const [customers, setCustomers] = useState([]);
-  const [customerNum, setCustomerNum] = useState(null);
   const [addProduct, setAddProduct] = useState(false);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
   const authCtx = useContext(AuthContext);
 
@@ -54,9 +53,10 @@ export default function MyCustomer(props) {
   // console.log(customers.data);
   useEffect(() => {
     userHandler(props.customerId);
-  }, [authCtx.refresh]);
+  }, []);
 
   const userHandler = async (userId) => {
+    // console.log(userId);
     props.setUserId(userId);
     props.setCustomerId(userId);
     const response = await axios.get(

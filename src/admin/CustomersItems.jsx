@@ -31,8 +31,6 @@ export default function (props) {
     getNewMessage();
   }, [props.customerData._id]);
 
-  
-
   const getMessage = async () => {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/message/get?conversationId=${
@@ -105,7 +103,7 @@ export default function (props) {
 
       setName(response.data.product.name);
       setPrice(response.data.product.price);
-      setTotalPrice(response.data.product.price + totalPrice);
+      // setTotalPrice(response.data.product.price + totalPrice);
     } else {
       try {
         const response = await axios.delete(
@@ -265,21 +263,9 @@ export default function (props) {
       }
     }
   };
-  // console.log(props.products.products);
+
   return (
     <>
-      {/* {!props.addProduct && props.products.products && (
-        <div
-          onClick={() => {
-            props.setAddProduct(!props.addProduct);
-            setName("");
-            setPrice("");
-            setProductId("");
-          }}
-          className={styles.addProduct}>
-          <Button>Add Item</Button>
-        </div>
-      )} */}
       {props.customerData._id && (
         <div className={styles.chatButton}>
           <Chat
@@ -352,8 +338,9 @@ export default function (props) {
                   <div>
                     <span
                       onClick={() => {
-                        eidtNadDeleteHandler("edit", product._id);
-                        props.setAddProduct(true);
+                        // eidtNadDeleteHandler("edit", product._id);
+                        props.setProductId(product._id);
+                        props.setOpen(true);
                       }}>
                       <i className="fa fa-edit"></i>
                     </span>

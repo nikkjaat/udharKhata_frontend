@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import ProtectedRoute from "./util/ProtectedRoute";
 import User from "./user/User";
 import UserItems from "./user/UserItems";
+import PaidAmount from "./components/PayBill/PaidAmount";
 const { googlePayClient } = window;
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
       allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
     },
   };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -45,6 +47,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         <Route path="*" />
       </Routes>
     </BrowserRouter>

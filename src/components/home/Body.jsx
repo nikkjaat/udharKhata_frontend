@@ -35,9 +35,10 @@ export default function Home() {
   const [alertType, setAlertType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [showNav, setShowNav] = useState(false);
+  const [open, setOpen] = useState(false);
   const containerRef = useRef();
 
-  // console.log(products);
+  // console.log(userId);
   useEffect(() => {
     const getCustomer = async () => {
       const response = await axios.get(
@@ -71,89 +72,89 @@ export default function Home() {
     getProduct();
   }, [authCtx.refresh]);
 
-  const inputHandler = (event, value) => {
-    if (event === "name") {
-      setName(value);
-    } else {
-      setPrice(value);
-    }
-  };
+  // const inputHandler = (event, value) => {
+  //   if (event === "name") {
+  //     setName(value);
+  //   } else {
+  //     setPrice(value);
+  //   }
+  // };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    if (productId === "") {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/admin/addproduct`,
-        {
-          name,
-          price,
-          userId: customerData._id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      if (response.status === 200) {
-        authCtx.refreshHandler();
-        setAddProduct(false);
-      }
-    } else {
-      const response = await axios.put(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/admin/updateproduct?productId=${productId}`,
-        {
-          name,
-          price,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      if (response.status === 200) {
-        authCtx.refreshHandler();
-        setAddProduct(false);
-      }
-    }
-  };
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
+  //   if (productId === "") {
+  //     const response = await axios.post(
+  //       `${import.meta.env.VITE_BACKEND_URL}/admin/addproduct`,
+  //       {
+  //         name,
+  //         price,
+  //         userId: customerData._id,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + authCtx.token,
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       authCtx.refreshHandler();
+  //       setAddProduct(false);
+  //     }
+  //   } else {
+  //     const response = await axios.put(
+  //       `${
+  //         import.meta.env.VITE_BACKEND_URL
+  //       }/admin/updateproduct?productId=${productId}`,
+  //       {
+  //         name,
+  //         price,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + authCtx.token,
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       authCtx.refreshHandler();
+  //       setAddProduct(false);
+  //     }
+  //   }
+  // };
 
-  const customerInputHandler = (event, value) => {
-    if (event === "name") {
-      setCustomerName(value);
-    } else if (event === "shopkeeperName") {
-      setShopkeeperName(value);
-    } else {
-      setNumber(value);
-    }
-  };
+  // const customerInputHandler = (event, value) => {
+  //   if (event === "name") {
+  //     setCustomerName(value);
+  //   } else if (event === "shopkeeperName") {
+  //     setShopkeeperName(value);
+  //   } else {
+  //     setNumber(value);
+  //   }
+  // };
 
-  const addCustomerHandler = async () => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/admin/addcustomer`,
-      {
-        name: customerName,
-        number: number,
-        shopkeeperName: shopkeeperName,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + authCtx.token,
-        },
-      }
-    );
-    console.log(response);
-    if (response.status === 200) {
-      authCtx.refreshHandler();
-      setAddCustomer(false);
-    }
-  };
+  // const addCustomerHandler = async () => {
+  //   const response = await axios.post(
+  //     `${import.meta.env.VITE_BACKEND_URL}/admin/addcustomer`,
+  //     {
+  //       name: customerName,
+  //       number: number,
+  //       shopkeeperName: shopkeeperName,
+  //     },
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + authCtx.token,
+  //       },
+  //     }
+  //   );
+  //   console.log(response);
+  //   if (response.status === 200) {
+  //     authCtx.refreshHandler();
+  //     setAddCustomer(false);
+  //   }
+  // };
 
   useEffect(() => {
     userHandler(customerId);
@@ -180,62 +181,62 @@ export default function Home() {
       setCustomerData(response.data.user);
     }
   };
-  const eidtNadDeleteHandler = async (event, productId) => {
-    if (event === "edit") {
-      setProductId(productId);
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/admin/getsingleproduct?productId=${productId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      setName(response.data.product.name);
-      setPrice(response.data.product.price);
-    } else {
-      const response = await axios.delete(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/admin/deleteproduct?productId=${productId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setProductId("");
-        authCtx.refreshHandler();
-        setAddProduct(false);
-      }
-    }
-  };
+  // const eidtNadDeleteHandler = async (event, productId) => {
+  //   if (event === "edit") {
+  //     setProductId(productId);
+  //     const response = await axios.get(
+  //       `${
+  //         import.meta.env.VITE_BACKEND_URL
+  //       }/admin/getsingleproduct?productId=${productId}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + authCtx.token,
+  //         },
+  //       }
+  //     );
+  //     setName(response.data.product.name);
+  //     setPrice(response.data.product.price);
+  //   } else {
+  //     const response = await axios.delete(
+  //       `${
+  //         import.meta.env.VITE_BACKEND_URL
+  //       }/admin/deleteproduct?productId=${productId}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + authCtx.token,
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       setProductId("");
+  //       authCtx.refreshHandler();
+  //       setAddProduct(false);
+  //     }
+  //   }
+  // };
 
-  const filterHandler = async (e) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/admin/filtercustomer?filter=${
-        e.target.value
-      }`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + authCtx.token,
-        },
-      }
-    );
-    console.log(response.data);
-    if (response.status === 203) {
-      setCustomers(response.data);
-    }
-    if (response.status === 200) {
-      setCustomers(response.data);
-    }
-  };
+  // const filterHandler = async (e) => {
+  //   const response = await axios.get(
+  //     `${import.meta.env.VITE_BACKEND_URL}/admin/filtercustomer?filter=${
+  //       e.target.value
+  //     }`,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + authCtx.token,
+  //       },
+  //     }
+  //   );
+  //   console.log(response.data);
+  //   if (response.status === 203) {
+  //     setCustomers(response.data);
+  //   }
+  //   if (response.status === 200) {
+  //     setCustomers(response.data);
+  //   }
+  // };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -323,6 +324,7 @@ export default function Home() {
 
           <div className={styles.userData}>
             <CustomersItems
+              open={open}
               setAlert={setAlert}
               setAlertType={setAlertType}
               setAlertMessage={setAlertMessage}
@@ -330,13 +332,20 @@ export default function Home() {
               products={products}
               setAddProduct={setAddProduct}
               addProduct={addProduct}
+              setOpen={setOpen}
+              setProductId={setProductId}
             />
           </div>
           {!showNav && (
             <div className={styles.bottomNavbarContainer}>
               <BottomNavbar
+                open={open}
+                setOpen={setOpen}
+                customerData={customerData}
                 userId={userId}
                 products={products}
+                productId={productId}
+                setProductId={setProductId}
                 onClick={addItem}
               />
             </div>
