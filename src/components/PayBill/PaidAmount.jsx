@@ -20,7 +20,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function PaidAmount({ price, paidData }) {
+export default function PaidAmount({ price, paidData, customer }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -33,7 +33,10 @@ export default function PaidAmount({ price, paidData }) {
   return (
     <React.Fragment>
       <Button
-        sx={{ background: "black", color: "white" }}
+        sx={{
+          background: `${customer ? "rgb(0, 0, 0, .2)" : "black"}`,
+          color: "white",
+        }}
         variant=""
         onClick={handleClickOpen}>
         {" "}
@@ -46,7 +49,7 @@ export default function PaidAmount({ price, paidData }) {
           viewBox="0 0 16 16">
           <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z" />
         </svg>{" "}
-        {price}
+        <b>{price}</b>
       </Button>
       <BootstrapDialog
         onClose={handleClose}
@@ -55,7 +58,7 @@ export default function PaidAmount({ price, paidData }) {
         <DialogTitle
           sx={{ m: 0, p: 2, textAlign: "center" }}
           id="customized-dialog-title">
-          Amount paid by Customer
+          {customer ? "Amount paid by you" : "Amount paid by customer"}
         </DialogTitle>
         <IconButton
           aria-label="close"

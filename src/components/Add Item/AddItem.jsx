@@ -61,6 +61,24 @@ export default function AddItem(props) {
     }
   };
 
+  //
+
+  const unreadNotifications = async () => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/admin/unreadnotification?userId=${
+        props.customerData._id
+      }`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + authCtx.token,
+        },
+      }
+    );
+    console.log(response);
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,6 +101,7 @@ export default function AddItem(props) {
 
         if (response.status === 200) {
           authCtx.refreshHandler();
+          unreadNotifications();
           handleClose();
         }
       } else {
@@ -105,6 +124,7 @@ export default function AddItem(props) {
         if (response.status === 200) {
           authCtx.refreshHandler();
           handleClose();
+          unreadNotifications();
         }
       }
     } catch (error) {

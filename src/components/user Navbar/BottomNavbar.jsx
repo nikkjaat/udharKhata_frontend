@@ -13,6 +13,8 @@ import Chat from "../chat/Chat";
 import AuthContext from "../../Context/AuthContext";
 import Error from "../Error/Error";
 import io from "socket.io-client";
+import PaidAmount from "../PayBill/PaidAmount";
+import ShopkeeprDetails from "../Shopkeeper Details/ShopkeeperDetails";
 
 export default function BottomNavbar(props) {
   const authCtx = useContext(AuthContext);
@@ -22,6 +24,8 @@ export default function BottomNavbar(props) {
   const [value, setValue] = useState("");
   const [alert, setAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
+  const [paidAmount, setPaidAmount] = useState(0);
+  const [paidData, setPaidData] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
   // const socket = io("http://localhost:4000");
 
@@ -39,6 +43,8 @@ export default function BottomNavbar(props) {
   // useEffect(() => {
   //   authCtx.socket.current.emit("addUsers", authCtx.userId);
   // }, []);
+
+  // console.log(props.data);
 
   const getNewMessage = async () => {
     const response = await axios.get(
@@ -136,6 +142,37 @@ export default function BottomNavbar(props) {
     getMessage();
   }, [props.shopkeeper]);
 
+  const getPaidAmount = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/admin/getpaidamount?customerId=${
+          props.data._id
+        }&adminId=${props.data.userId}`
+      );
+      // console.log(response);
+      if (response.status === 200) {
+        setPaidData(response.data);
+        let price = 0;
+        response.data.forEach((item) => {
+          price += item.amount;
+          setPaidAmount(price);
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          console.log(error.response.data.message);
+        } else {
+          console.log(error.response.data.message);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    getPaidAmount();
+  }, [props.data._id]);
+
   return (
     <>
       <Error
@@ -146,7 +183,15 @@ export default function BottomNavbar(props) {
       />
       <div className={styles.container}>
         <nav className={`${styles.navbar} navbar justify-content-between`}>
-          <div>{props.shopkeeperName}</div>
+          <div>
+            {/* {props.data.shopkeeperName} */}
+            <ShopkeeprDetails
+              totalAmount={props.totalPrice}
+              paidAmount={paidAmount}
+              shopkeeperName={props.data.shopkeeperName}
+              number={props.shopkeeper.number}
+            />
+          </div>
           <div className={styles.iconsContainer}>
             <Link
               title="WhatsApp"
@@ -172,7 +217,18 @@ export default function BottomNavbar(props) {
               />
             </Link>
           </div>
-          <div>Due Bal. : {props.totalPrice}</div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+            <PaidAmount
+              customer={true}
+              paidData={paidData}
+              price={props.totalPrice - paidAmount}
+            />
+          </div>
         </nav>
       </div>
     </>

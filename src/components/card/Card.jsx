@@ -19,6 +19,8 @@ export default function Card(props) {
 
   let totalPrice = 0;
 
+  // console.log(props.customers);
+
   useEffect(() => {
     if (props.customers) {
       const userId = props.customers._id;
