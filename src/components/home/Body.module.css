@@ -18,11 +18,27 @@
   min-height: 90vh;
 }
 
+.sideNav > div:first-child {
+  position: sticky;
+  top: 25em;
+  right: 20em;
+  border-radius: 0em 0.3em 0.3em 0em;
+}
+
 .hideSideNav {
   background-color: var(---mainColor) !important;
-  min-width: 2.5rem !important;
+  min-width: 0rem !important;
   max-width: 2.5rem !important;
   min-height: 90vh !important;
+}
+
+.hideSideNav > div:first-child {
+  position: fixed;
+  bottom: 3em;
+  right: 0em;
+  width: 2em !important;
+  height: 2.2em !important;
+  border-radius: 0.3em 0em 0em 0.3em;
 }
 
 .hideSideNav div:last-child {

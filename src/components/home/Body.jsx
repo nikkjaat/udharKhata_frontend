@@ -173,13 +173,10 @@ export default function Home() {
             style={{
               background: "black",
               width: "fit-content",
-
+              fontSize: "1.3em",
               marginLeft: "auto",
               padding: ".3em .4em .4em",
-              borderRadius: "0em 0.3em 0.3em 0em",
-              position: "sticky",
-              top: "37em",
-              right: "14em",
+
               zIndex: "100",
               cursor: "pointer",
             }}>
