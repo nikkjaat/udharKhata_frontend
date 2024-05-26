@@ -139,6 +139,13 @@ export default function PayBill({
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
+
   return (
     <React.Fragment>
       <Button
@@ -171,9 +178,9 @@ export default function PayBill({
                 handleChange("amount", e.target.value);
               }}
               value={amount}
+              onKeyDown={handleKeyDown}
             />
             <TextField
-              autoFocus
               required
               margin="dense"
               id="paidBy"
@@ -186,6 +193,7 @@ export default function PayBill({
                 handleChange("paidBy", e.target.value);
               }}
               value={paidBy}
+              onKeyDown={handleKeyDown}
             />
           </DialogContentText>
         </DialogContent>
@@ -193,7 +201,7 @@ export default function PayBill({
           <Button variant="contained" color="error" onClick={handleClose}>
             Cancel
           </Button>
-          <Button autoFocus variant="contained" onClick={handleSubmit}>
+          <Button type="submit" variant="contained" onClick={handleSubmit}>
             Pay
           </Button>
         </DialogActions>
