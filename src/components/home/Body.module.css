@@ -5,28 +5,24 @@
   min-width: 100vw;
   display: flex;
   min-height: 100vh !important;
+  position: relative;
 }
 
 /* SIDENAV CSS */
 
 .sideNav {
-  /* flex: 1; */
-  display: block;
   background-color: var(---mainColor);
-  /* max-height: 100%; */
   transition: 0.3s;
   min-width: 15rem !important;
   max-width: 16rem !important;
+  min-height: 90vh;
 }
 
 .hideSideNav {
-  flex: 1;
-  display: block;
-  width: 2rem !important;
-  background-color: var(---mainColor);
-  min-width: 2rem !important;
-  max-width: 2rem !important;
-  min-height: 90vh;
+  background-color: var(---mainColor) !important;
+  min-width: 2.5rem !important;
+  max-width: 2.5rem !important;
+  min-height: 90vh !important;
 }
 
 .hideSideNav div:last-child {

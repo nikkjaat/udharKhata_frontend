@@ -18,17 +18,15 @@ import BottomNavbar from "../navbar/BottomNavbar";
 export default function Home() {
   const authCtx = useContext(AuthContext);
 
-  const [addCustomer, setAddCustomer] = useState(false);
+  // const [addCustomer, setAddCustomer] = useState(false);
+  // const [customers, setCustomers] = useState([]);
   const [customerData, setCustomerData] = useState({
     name: "",
     number: null,
   });
   const [addProduct, setAddProduct] = useState(false);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
   const [productId, setProductId] = useState("");
   const [products, setProducts] = useState([]);
-  const [customers, setCustomers] = useState([]);
   const [customerId, setCustomerId] = useState("");
   const [userId, setUserId] = useState("");
   const [alert, setAlert] = useState(false);
@@ -39,57 +37,10 @@ export default function Home() {
   const containerRef = useRef();
 
   // console.log(userId);
-  useEffect(() => {
-    const getCustomer = async () => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/admin/getadmincustomers`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      // console.log(response.data.data[0].customerId._id);
-      setCustomers(response.data);
-    };
-    getCustomer();
-  }, [authCtx.refresh]);
-
-  useEffect(() => {
-    const getProduct = async () => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/admin/getproduct`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      // console.log(response);
-    };
-    getProduct();
-  }, [authCtx.refresh]);
-
-  // const inputHandler = (event, value) => {
-  //   if (event === "name") {
-  //     setName(value);
-  //   } else {
-  //     setPrice(value);
-  //   }
-  // };
-
-  // const submitHandler = async (e) => {
-  //   e.preventDefault();
-  //   if (productId === "") {
-  //     const response = await axios.post(
-  //       `${import.meta.env.VITE_BACKEND_URL}/admin/addproduct`,
-  //       {
-  //         name,
-  //         price,
-  //         userId: customerData._id,
-  //       },
+  // useEffect(() => {
+  //   const getCustomer = async () => {
+  //     const response = await axios.get(
+  //       `${import.meta.env.VITE_BACKEND_URL}/admin/getadmincustomers`,
   //       {
   //         headers: {
   //           "Content-Type": "application/json",
@@ -97,19 +48,16 @@ export default function Home() {
   //         },
   //       }
   //     );
-  //     if (response.status === 200) {
-  //       authCtx.refreshHandler();
-  //       setAddProduct(false);
-  //     }
-  //   } else {
-  //     const response = await axios.put(
-  //       `${
-  //         import.meta.env.VITE_BACKEND_URL
-  //       }/admin/updateproduct?productId=${productId}`,
-  //       {
-  //         name,
-  //         price,
-  //       },
+  //     // console.log(response.data.data[0].customerId._id);
+  //     setCustomers(response.data);
+  //   };
+  //   getCustomer();
+  // }, [authCtx.refresh]);
+
+  // useEffect(() => {
+  //   const getProduct = async () => {
+  //     const response = await axios.get(
+  //       `${import.meta.env.VITE_BACKEND_URL}/admin/getproduct`,
   //       {
   //         headers: {
   //           "Content-Type": "application/json",
@@ -117,44 +65,10 @@ export default function Home() {
   //         },
   //       }
   //     );
-  //     if (response.status === 200) {
-  //       authCtx.refreshHandler();
-  //       setAddProduct(false);
-  //     }
-  //   }
-  // };
-
-  // const customerInputHandler = (event, value) => {
-  //   if (event === "name") {
-  //     setCustomerName(value);
-  //   } else if (event === "shopkeeperName") {
-  //     setShopkeeperName(value);
-  //   } else {
-  //     setNumber(value);
-  //   }
-  // };
-
-  // const addCustomerHandler = async () => {
-  //   const response = await axios.post(
-  //     `${import.meta.env.VITE_BACKEND_URL}/admin/addcustomer`,
-  //     {
-  //       name: customerName,
-  //       number: number,
-  //       shopkeeperName: shopkeeperName,
-  //     },
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer " + authCtx.token,
-  //       },
-  //     }
-  //   );
-  //   console.log(response);
-  //   if (response.status === 200) {
-  //     authCtx.refreshHandler();
-  //     setAddCustomer(false);
-  //   }
-  // };
+  //     // console.log(response);
+  //   };
+  //   getProduct();
+  // }, [authCtx.refresh]);
 
   useEffect(() => {
     userHandler(customerId);
@@ -181,62 +95,6 @@ export default function Home() {
       setCustomerData(response.data.user);
     }
   };
-  // const eidtNadDeleteHandler = async (event, productId) => {
-  //   if (event === "edit") {
-  //     setProductId(productId);
-  //     const response = await axios.get(
-  //       `${
-  //         import.meta.env.VITE_BACKEND_URL
-  //       }/admin/getsingleproduct?productId=${productId}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: "Bearer " + authCtx.token,
-  //         },
-  //       }
-  //     );
-  //     setName(response.data.product.name);
-  //     setPrice(response.data.product.price);
-  //   } else {
-  //     const response = await axios.delete(
-  //       `${
-  //         import.meta.env.VITE_BACKEND_URL
-  //       }/admin/deleteproduct?productId=${productId}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: "Bearer " + authCtx.token,
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setProductId("");
-  //       authCtx.refreshHandler();
-  //       setAddProduct(false);
-  //     }
-  //   }
-  // };
-
-  // const filterHandler = async (e) => {
-  //   const response = await axios.get(
-  //     `${import.meta.env.VITE_BACKEND_URL}/admin/filtercustomer?filter=${
-  //       e.target.value
-  //     }`,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer " + authCtx.token,
-  //       },
-  //     }
-  //   );
-  //   console.log(response.data);
-  //   if (response.status === 203) {
-  //     setCustomers(response.data);
-  //   }
-  //   if (response.status === 200) {
-  //     setCustomers(response.data);
-  //   }
-  // };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -267,50 +125,6 @@ export default function Home() {
       <Navbar userHandler={userHandler} />
 
       <div className={styles.body}>
-        <div className={`${styles.sideNav} ${!showNav && styles.hideSideNav}`}>
-          <div
-            onClick={() => {
-              setShowNav(!showNav);
-            }}
-            style={{
-              background: "black",
-              width: "fit-content",
-              marginLeft: "auto",
-              padding: ".3em .4em .4em",
-              borderRadius: ".3em 0 0 .3em",
-              position: "sticky",
-              top: "4em",
-              left: ".3em",
-              zIndex: "100",
-              cursor: "pointer",
-            }}>
-            {showNav ? (
-              <i class="bi bi-chevron-double-left"></i>
-            ) : (
-              <i class="bi bi-chevron-double-right"></i>
-            )}
-          </div>
-          <div className={styles.sideNavChild}>
-            <div>
-              <AddCustomer
-                setAlert={setAlert}
-                setAlertType={setAlertType}
-                setAlertMessage={setAlertMessage}
-              />
-            </div>
-
-            <hr />
-            <div>
-              <MyCustomer
-                setCustomerId={setCustomerId}
-                customerData={setCustomerData}
-                products={setProducts}
-                setUserId={setUserId}
-              />
-            </div>
-          </div>
-        </div>
-
         <div ref={containerRef} className={styles.container}>
           <CustomerDetails
             customerId={setCustomerId}
@@ -350,6 +164,50 @@ export default function Home() {
               />
             </div>
           )}
+        </div>
+        <div className={`${styles.sideNav} ${!showNav && styles.hideSideNav}`}>
+          <div
+            onClick={() => {
+              setShowNav(!showNav);
+            }}
+            style={{
+              background: "black",
+              width: "fit-content",
+
+              marginLeft: "auto",
+              padding: ".3em .4em .4em",
+              borderRadius: "0em 0.3em 0.3em 0em",
+              position: "sticky",
+              top: "37em",
+              right: "14em",
+              zIndex: "100",
+              cursor: "pointer",
+            }}>
+            {showNav ? (
+              <i class="bi bi-chevron-double-right"></i>
+            ) : (
+              <i class="bi bi-chevron-double-left"></i>
+            )}
+          </div>
+          <div className={styles.sideNavChild}>
+            <div>
+              <AddCustomer
+                setAlert={setAlert}
+                setAlertType={setAlertType}
+                setAlertMessage={setAlertMessage}
+              />
+            </div>
+
+            <hr />
+            <div>
+              <MyCustomer
+                setCustomerId={setCustomerId}
+                customerData={setCustomerData}
+                products={setProducts}
+                setUserId={setUserId}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>
