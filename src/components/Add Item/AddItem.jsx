@@ -146,7 +146,9 @@ export default function AddItem(props) {
           component: "form",
           onSubmit: handleSubmit,
         }}>
-        <DialogTitle>Add item</DialogTitle>
+        <DialogTitle>
+          <b>Add Item</b>
+        </DialogTitle>
         <DialogContent>
           <TextField
             onChange={(e) => inputHandler("name", e.target.value)}
@@ -175,8 +177,12 @@ export default function AddItem(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Add</Button>
+          <Button onClick={handleClose} variant="contained" color="error">
+            Cancel
+          </Button>
+          <Button type="submit" variant="contained">
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

@@ -126,7 +126,7 @@ export default function ShopkeeprDetails(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" autoFocus onClick={handleClose}>
             OK
           </Button>
         </DialogActions>

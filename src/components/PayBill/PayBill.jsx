@@ -22,18 +22,29 @@ function PaperComponent(props) {
   );
 }
 
-export default function PayBill({ userId, getPaidAmount, customerData }) {
-  const [open, setOpen] = React.useState(false);
+export default function PayBill({
+  userId,
+  getPaidAmount,
+  setOpen,
+  open,
+  id,
+  setId,
+}) {
+  // const [open, setOpen] = React.useState(false);
   const [amount, setAmount] = React.useState(null);
   const [paidBy, setPaidBy] = React.useState("");
   // const [userId, setUserId] = React.useState(id);
   const authCtx = React.useContext(AuthContext);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setAmount("");
+    setPaidBy("");
+    setId("");
   };
 
   const handleChange = (event, value) => {
@@ -44,35 +55,87 @@ export default function PayBill({ userId, getPaidAmount, customerData }) {
     }
   };
 
-  const handleSubmit = async () => {
+  const getAmountById = async () => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/admin/paidamount`,
-        {
-          amount,
-          paidBy,
-          customerId: userId,
-          adminId: authCtx.userId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/admin/getpaidamountbyid?id=${id}`
       );
       if (response.status === 200) {
-        // console.log(response.data);
-
-        handleClose();
-        getPaidAmount();
+        setAmount(response.data.amount);
+        0;
+        setPaidBy(response.data.paidBy);
       }
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 500) {
+        if (error.response.status === 404) {
+          console.log(error.response);
+        } else {
           console.log(error.response);
         }
       }
+    }
+  };
+
+  React.useEffect(() => {
+    if (id) {
+      getAmountById();
+    }
+  }, [id]);
+
+  const handleSubmit = async () => {
+    if (!id) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/admin/paidamount`,
+          {
+            amount,
+            paidBy,
+            customerId: userId,
+            adminId: authCtx.userId,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + authCtx.token,
+            },
+          }
+        );
+        if (response.status === 200) {
+          // console.log(response.data);
+
+          handleClose();
+          getPaidAmount();
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 500) {
+            console.log(error.response);
+          }
+        }
+      }
+    } else {
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}/admin/updatepaidamount?id=${id}`,
+          {
+            amount,
+            paidBy,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + authCtx.token,
+            },
+          }
+        );
+        if (response.status === 200) {
+          console.log(response.data);
+
+          handleClose();
+          setId("");
+          getPaidAmount();
+        }
+      } catch (error) {}
     }
   };
 
@@ -90,7 +153,7 @@ export default function PayBill({ userId, getPaidAmount, customerData }) {
         PaperComponent={PaperComponent}
         aria-labelledby="draggable-dialog-title">
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          Pay
+          <b>Pay Bill</b>
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -107,6 +170,7 @@ export default function PayBill({ userId, getPaidAmount, customerData }) {
               onChange={(e) => {
                 handleChange("amount", e.target.value);
               }}
+              value={amount}
             />
             <TextField
               autoFocus
@@ -121,14 +185,17 @@ export default function PayBill({ userId, getPaidAmount, customerData }) {
               onChange={(e) => {
                 handleChange("paidBy", e.target.value);
               }}
+              value={paidBy}
             />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button variant="contained" color="error" onClick={handleClose}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>Pay</Button>
+          <Button autoFocus variant="contained" onClick={handleSubmit}>
+            Pay
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

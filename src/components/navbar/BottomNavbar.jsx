@@ -10,6 +10,13 @@ export default function BottomNavbar(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [paidAmount, setPaidAmount] = useState(0);
   const [paidData, setPaidData] = useState([]);
+
+  //handle pay bill dialog box
+  const [open, setOpen] = React.useState(false);
+
+  //get id from PaidAmount for updating
+  const [id, setId] = useState("");
+
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
@@ -38,6 +45,9 @@ export default function BottomNavbar(props) {
           price += item.amount;
           setPaidAmount(price);
         });
+      } else if (response.status === 204) {
+        setPaidData([]);
+        setPaidAmount(0);
       }
     } catch (error) {
       if (error.response) {
@@ -58,10 +68,24 @@ export default function BottomNavbar(props) {
     <>
       <div className={styles.container}>
         <button style={{ padding: 0, background: "transparent" }}>
-          <PaidAmount paidData={paidData} price={totalPrice - paidAmount} />
+          <PaidAmount
+            open={open}
+            setOpen={setOpen}
+            paidData={paidData}
+            price={totalPrice - paidAmount}
+            setId={setId}
+            getPaidAmount={getPaidAmount}
+          />
         </button>
         <div>
-          <PayBill getPaidAmount={getPaidAmount} userId={props.userId} />
+          <PayBill
+            id={id}
+            setId={setId}
+            open={open}
+            setOpen={setOpen}
+            getPaidAmount={getPaidAmount}
+            userId={props.userId}
+          />
         </div>
         <div>
           <button
