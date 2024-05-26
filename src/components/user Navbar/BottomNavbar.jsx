@@ -227,6 +227,7 @@ export default function BottomNavbar(props) {
               customer={true}
               paidData={paidData}
               price={props.totalPrice - paidAmount}
+              getPaidAmount={getPaidAmount}
             />
           </div>
         </nav>

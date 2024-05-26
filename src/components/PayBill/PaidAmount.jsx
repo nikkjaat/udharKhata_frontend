@@ -27,6 +27,7 @@ export default function PaidAmount(props) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    props.getPaidAmount();
   };
   const handleClose = () => {
     setOpen(false);
@@ -102,15 +103,18 @@ export default function PaidAmount(props) {
                       {" "}
                       {formattedDate}
                     </Typography>
-                    <Typography>
-                      <MenuOnClick
-                        getPaidAmount={props.getPaidAmount}
-                        setId={props.setId}
-                        id={data._id}
-                        open={props.open}
-                        setOpen={props.setOpen}
-                      />
-                    </Typography>
+                    {!props.customer && (
+                      <Typography>
+                        <MenuOnClick
+                          admin={props.admin}
+                          getPaidAmount={props.getPaidAmount}
+                          setId={props.setId}
+                          id={data._id}
+                          open={props.open}
+                          setOpen={props.setOpen}
+                        />
+                      </Typography>
+                    )}
                   </Box>
                   <Divider />
                 </>

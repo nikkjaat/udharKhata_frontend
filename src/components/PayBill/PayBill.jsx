@@ -150,7 +150,7 @@ export default function PayBill({
     <React.Fragment>
       <Button
         sx={{ background: "black", color: "white" }}
-        variant="outlined"
+        variant=""
         onClick={handleClickOpen}>
         Pay &nbsp; <i class="bi bi-wallet2"></i>
       </Button>

@@ -10,6 +10,7 @@ export default function BottomNavbar(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [paidAmount, setPaidAmount] = useState(0);
   const [paidData, setPaidData] = useState([]);
+  const [admin, setAdmin] = useState(true);
 
   //handle pay bill dialog box
   const [open, setOpen] = React.useState(false);
@@ -93,6 +94,7 @@ export default function BottomNavbar(props) {
             // onClick={props.onClick}
           >
             <AddItem
+              admin={admin}
               productId={props.productId}
               setProductId={props.setProductId}
               setOpen={props.setOpen}

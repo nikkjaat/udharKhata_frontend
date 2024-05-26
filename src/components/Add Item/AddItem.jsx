@@ -147,7 +147,7 @@ export default function AddItem(props) {
           onSubmit: handleSubmit,
         }}>
         <DialogTitle>
-          <b>Add Item</b>
+          <b>{props.productId ? "Update Item" : "Add Item"}</b>
         </DialogTitle>
         <DialogContent>
           <TextField
@@ -181,7 +181,7 @@ export default function AddItem(props) {
             Cancel
           </Button>
           <Button type="submit" variant="contained">
-            Add
+            {props.productId ? "Update" : "Add"}
           </Button>
         </DialogActions>
       </Dialog>
