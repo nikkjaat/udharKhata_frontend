@@ -36,39 +36,7 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef();
 
-  // console.log(userId);
-  // useEffect(() => {
-  //   const getCustomer = async () => {
-  //     const response = await axios.get(
-  //       `${import.meta.env.VITE_BACKEND_URL}/admin/getadmincustomers`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: "Bearer " + authCtx.token,
-  //         },
-  //       }
-  //     );
-  //     // console.log(response.data.data[0].customerId._id);
-  //     setCustomers(response.data);
-  //   };
-  //   getCustomer();
-  // }, [authCtx.refresh]);
-
-  // useEffect(() => {
-  //   const getProduct = async () => {
-  //     const response = await axios.get(
-  //       `${import.meta.env.VITE_BACKEND_URL}/admin/getproduct`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: "Bearer " + authCtx.token,
-  //         },
-  //       }
-  //     );
-  //     // console.log(response);
-  //   };
-  //   getProduct();
-  // }, [authCtx.refresh]);
+ 
 
   useEffect(() => {
     userHandler(customerId);

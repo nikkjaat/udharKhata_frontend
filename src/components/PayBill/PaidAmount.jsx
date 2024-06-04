@@ -28,6 +28,7 @@ export default function PaidAmount(props) {
   const handleClickOpen = () => {
     setOpen(true);
     props.getPaidAmount();
+    props.getItems();
   };
   const handleClose = () => {
     setOpen(false);

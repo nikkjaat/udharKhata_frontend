@@ -4,8 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
-import Error from "../components/Error/Error";
-import BottomNavbar from "../components/navbar/BottomNavbar";
+
 
 export default function CustomerDetails(props) {
   const [edit, setEdit] = useState(false);

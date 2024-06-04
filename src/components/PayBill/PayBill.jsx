@@ -11,6 +11,7 @@ import { TextField } from "@mui/material";
 
 import axios from "axios";
 import AuthContext from "../../Context/AuthContext";
+import CustomContext from "../../Context/CustomContext";
 
 function PaperComponent(props) {
   return (
@@ -35,6 +36,7 @@ export default function PayBill({
   const [paidBy, setPaidBy] = React.useState("");
   // const [userId, setUserId] = React.useState(id);
   const authCtx = React.useContext(AuthContext);
+  const customCtx = React.useContext(CustomContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -105,6 +107,8 @@ export default function PayBill({
 
           handleClose();
           getPaidAmount();
+          customCtx.getItems();
+          customCtx.getPaidAmount();
         }
       } catch (error) {
         if (error.response) {
@@ -134,6 +138,8 @@ export default function PayBill({
           handleClose();
           setId("");
           getPaidAmount();
+          customCtx.getItems();
+          customCtx.getPaidAmount();
         }
       } catch (error) {}
     }

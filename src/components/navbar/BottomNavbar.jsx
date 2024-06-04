@@ -63,7 +63,7 @@ export default function BottomNavbar(props) {
 
   useEffect(() => {
     getPaidAmount();
-  }, []);
+  }, [authCtx.refresh]);
 
   return (
     <>

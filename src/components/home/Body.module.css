@@ -299,6 +299,19 @@ hr {
 .chatButton {
   text-align: center;
   margin: 0 0 1em auto;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.chatButton > div:first-child {
+  background-color: #fff;
+  color: black;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  border-radius: 1em;
+  cursor: pointer;
 }
 
 .chatButton a {
@@ -321,7 +334,7 @@ hr {
   right: 1em;
 }
 
-.chatButton:hover {
+/* .chatButton:hover {
   cursor: pointer !important;
   border-radius: 1.4em;
   color: black;
@@ -334,7 +347,7 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .customerDataDetailes {
   margin-top: 2rem;
@@ -494,6 +507,11 @@ h5 {
     font-size: 1.6em;
     min-width: 5rem !important;
   }
+
+  .chatButton > div:first-child {
+    font-size: 0.9em;
+    padding: 0.4em 1em;
+  }
 }
 
 @media (max-width: 672px) {
@@ -568,6 +586,12 @@ h5 {
     padding: 0.2em 0.9em;
     font-size: 1.2em;
     min-width: 5rem !important;
+  }
+
+  
+  .chatButton > div:first-child {
+    font-size: 0.7em;
+    padding: 0.4em 1em;
   }
 
   p {

@@ -17,6 +17,8 @@ export default function ShopkeeprDetails(props) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    props.getItems();
+    props.getPaidAmount();
   };
 
   const handleClose = () => {

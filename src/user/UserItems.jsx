@@ -12,48 +12,51 @@ export default function UserItems() {
   const authCtx = useContext(AuthContext);
   let totalPrice = 0;
 
-  useEffect(() => {
-    const getItems = async () => {
-      const userId = sessionStorage.getItem("userId");
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/user/getitemsdetails?userId=${userId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setItems(response.data);
+  const getItems = async () => {
+    const userId = sessionStorage.getItem("userId");
+    const response = await axios.get(
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/user/getitemsdetails?userId=${userId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + authCtx.token,
+        },
       }
-    };
+    );
+    if (response.status === 200) {
+      setItems(response.data);
+    }
+  };
+
+  useEffect(() => {
     getItems();
   }, []);
+  
   if (items.data) {
     items.data.forEach((item) => {
       totalPrice += item.price;
     });
   }
+
+  const getShopkeeper = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/user/getshopkeepername?userId=${
+        items.data[0].userId
+      }`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + authCtx.token,
+        },
+      }
+    );
+    // console.log(response.data);
+    setData(response.data.data);
+    getAdmin(response.data.data.userId);
+  };
   useEffect(() => {
-    const getShopkeeper = async () => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/user/getshopkeepername?userId=${
-          items.data[0].userId
-        }`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
-          },
-        }
-      );
-      // console.log(response.data);
-      setData(response.data.data);
-      getAdmin(response.data.data.userId);
-    };
     getShopkeeper();
   }, [items]);
 
@@ -109,6 +112,7 @@ export default function UserItems() {
           })}
       </div>
       <BottomNavbar
+        getItems={getItems}
         shopkeeper={shopkeeper}
         totalPrice={totalPrice}
         data={data}

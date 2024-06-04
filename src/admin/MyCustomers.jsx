@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "../components/home/Body.module.css";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
+import CustomContext from "../Context/CustomContext";
 
 export default function MyCustomer(props) {
   const [holdTimeout, setHoldTimeout] = useState(null);
@@ -11,6 +12,7 @@ export default function MyCustomer(props) {
   // const [products, setProducts] = useState([]);
 
   const authCtx = useContext(AuthContext);
+  const customCtx = useContext(CustomContext);
 
   useEffect(() => {
     const getCustomer = async () => {
@@ -57,6 +59,9 @@ export default function MyCustomer(props) {
 
   const userHandler = async (userId) => {
     // console.log(userId);
+    localStorage.setItem("userId", userId);
+    customCtx.getPaidAmount();
+    customCtx.getItems();
     props.setUserId(userId);
     props.setCustomerId(userId);
     const response = await axios.get(

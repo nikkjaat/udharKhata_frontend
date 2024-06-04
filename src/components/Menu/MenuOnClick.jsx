@@ -3,12 +3,14 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
+import CustomContext from "../../Context/CustomContext";
 
 export default function MenuOnClick(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isHolding, setIsHolding] = React.useState(false);
   const holdTimeout = React.useRef(null);
   const open = Boolean(anchorEl);
+  const customCtx = React.useContext(CustomContext);
 
   const handleClick = (event) => {
     // Do nothing or handle left-click if needed
@@ -64,6 +66,8 @@ export default function MenuOnClick(props) {
       );
       if (response.status === 200) {
         props.getPaidAmount();
+        customCtx.getPaidAmount();
+        customCtx.getItems();
         handleClose();
       }
     } catch (error) {

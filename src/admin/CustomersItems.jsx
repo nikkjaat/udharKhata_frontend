@@ -4,10 +4,8 @@ import Button from "../components/Button/Button";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 import AddCustomer from "./AddCustomer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { faRocketchat } from "@fortawesome/free-brands-svg-icons";
 import Chat from "../components/chat/Chat";
+import CustomContext from "../Context/CustomContext";
 
 export default function (props) {
   const [message, setMessage] = useState([]);
@@ -18,6 +16,7 @@ export default function (props) {
   const [newMessage, setNewMessage] = useState(false);
   const [value, setValue] = React.useState("");
   const authCtx = useContext(AuthContext);
+  const customeCtx = useContext(CustomContext);
 
   const getNewMessage = async () => {
     const response = await axios.get(
@@ -163,104 +162,121 @@ export default function (props) {
     // console.log(response);
   };
 
-  const inputHandler = (event, value) => {
-    if (event === "name") {
-      setName(value);
-    } else {
-      setPrice(value);
-    }
-  };
+  // const inputHandler = (event, value) => {
+  //   if (event === "name") {
+  //     setName(value);
+  //   } else {
+  //     setPrice(value);
+  //   }
+  // };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    if (productId === "") {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/admin/addproduct`,
-          {
-            name,
-            price,
-            userId: props.customerData._id,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + authCtx.token,
-            },
-          }
-        );
-        // console.log(response);
-        if (response.status === 200) {
-          unreadNotifications();
-          authCtx.refreshHandler();
-          props.setAddProduct(false);
-          props.setAlert(true);
-          props.setAlertType("success");
-          props.setAlertMessage(response.data.message);
-          setName("");
-          setPrice("");
-          setProductId("");
-        }
-      } catch (error) {
-        if (error.request) {
-          console.error("No response received:", error.request);
-          props.setAlert(true);
-          props.setAlertType("error");
-          props.setAlertMessage("No response received from the server");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error:", error.message);
-          props.setAlert(true);
-          props.setAlertType("error");
-          props.setAlertMessage("An unexpected error occurred");
-        }
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
+  //   if (productId === "") {
+  //     try {
+  //       const response = await axios.post(
+  //         `${import.meta.env.VITE_BACKEND_URL}/admin/addproduct`,
+  //         {
+  //           name,
+  //           price,
+  //           userId: props.customerData._id,
+  //         },
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: "Bearer " + authCtx.token,
+  //           },
+  //         }
+  //       );
+  //       // console.log(response);
+  //       if (response.status === 200) {
+  //         unreadNotifications();
+  //         authCtx.refreshHandler();
+  //         props.setAddProduct(false);
+  //         props.setAlert(true);
+  //         props.setAlertType("success");
+  //         props.setAlertMessage(response.data.message);
+  //         setName("");
+  //         setPrice("");
+  //         setProductId("");
+  //       }
+  //     } catch (error) {
+  //       if (error.request) {
+  //         console.error("No response received:", error.request);
+  //         props.setAlert(true);
+  //         props.setAlertType("error");
+  //         props.setAlertMessage("No response received from the server");
+  //       } else {
+  //         // Something happened in setting up the request that triggered an Error
+  //         console.error("Error:", error.message);
+  //         props.setAlert(true);
+  //         props.setAlertType("error");
+  //         props.setAlertMessage("An unexpected error occurred");
+  //       }
+  //     }
+  //   } else {
+  //     try {
+  //       const response = await axios.put(
+  //         `${
+  //           import.meta.env.VITE_BACKEND_URL
+  //         }/admin/updateproduct?productId=${productId}`,
+  //         {
+  //           name,
+  //           price,
+  //         },
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: "Bearer " + authCtx.token,
+  //           },
+  //         }
+  //       );
+  //       if (response.status === 200) {
+  //         authCtx.refreshHandler();
+  //         props.setAddProduct(false);
+  //         props.setAlert(true);
+  //         props.setAlertType("success");
+  //         props.setAlertMessage(response.data.message);
+  //         setName("");
+  //         setPrice("");
+  //         setProductId("");
+  //       }
+  //     } catch (error) {
+  //       if (error.response) {
+  //         if (error.response.status === 404) {
+  //           props.setAlert(true);
+  //           props.setAlertType("error");
+  //           props.setAlertMessage(response.data.message);
+  //         }
+  //       } else if (error.request) {
+  //         console.log("No response received:", error.request);
+  //         props.setAlert(true);
+  //         props.setAlertType("error");
+  //         props.setAlertMessage("No response received from the server");
+  //       } else {
+  //         console.error("Error:", error.message);
+  //         props.setAlert(true);
+  //         props.setAlertType("error");
+  //         props.setAlertMessage("An unexpected error occurred");
+  //       }
+  //     }
+  //   }
+  // };
+
+  // console.log(props.customerData);
+
+  const deleteAllData = async (adminId, customerId) => {
+    try {
+      const response = await axios.delete(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/admin/deletealldata?adminId=${adminId}&customerId=${customerId}`
+      );
+      if (response.status === 200) {
+        authCtx.refreshHandler();
       }
-    } else {
-      try {
-        const response = await axios.put(
-          `${
-            import.meta.env.VITE_BACKEND_URL
-          }/admin/updateproduct?productId=${productId}`,
-          {
-            name,
-            price,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + authCtx.token,
-            },
-          }
-        );
-        if (response.status === 200) {
-          authCtx.refreshHandler();
-          props.setAddProduct(false);
-          props.setAlert(true);
-          props.setAlertType("success");
-          props.setAlertMessage(response.data.message);
-          setName("");
-          setPrice("");
-          setProductId("");
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 404) {
-            props.setAlert(true);
-            props.setAlertType("error");
-            props.setAlertMessage(response.data.message);
-          }
-        } else if (error.request) {
-          console.log("No response received:", error.request);
-          props.setAlert(true);
-          props.setAlertType("error");
-          props.setAlertMessage("No response received from the server");
-        } else {
-          console.error("Error:", error.message);
-          props.setAlert(true);
-          props.setAlertType("error");
-          props.setAlertMessage("An unexpected error occurred");
-        }
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -268,6 +284,17 @@ export default function (props) {
     <>
       {props.customerData._id && (
         <div className={styles.chatButton}>
+          {customeCtx.deleteButton && (
+            <div
+              onClick={() => {
+                deleteAllData(
+                  props.customerData.userId,
+                  props.customerData._id
+                );
+              }}>
+              Clear all Data <i className="fa fa-trash"></i>
+            </div>
+          )}
           <Chat
             readMessage={readMessage}
             message={message}
@@ -289,42 +316,7 @@ export default function (props) {
         <div>Product</div>
         <div>Price</div>
       </div>
-      {props.addProduct && (
-        <form onSubmit={submitHandler} className={styles.addData}>
-          <input
-            onChange={(e) => {
-              inputHandler("name", e.target.value);
-            }}
-            required
-            value={name}
-            type="text"
-            placeholder="Enter Product Name"
-          />
-          <input
-            onChange={(e) => {
-              inputHandler("price", e.target.value);
-            }}
-            required
-            value={price}
-            type="number"
-            placeholder="Enter Product Price"
-          />
 
-          <div>
-            <button>Save</button>
-            <button
-              className={styles.removeProduct}
-              onClick={() => {
-                props.setAddProduct(!props.addProduct);
-                setName("");
-                setPrice("");
-                setProductId("");
-              }}>
-              X
-            </button>
-          </div>
-        </form>
-      )}
       <div className={styles.customerDataDetailes}>
         {props.products.products ? (
           props.products.products.map((product) => {

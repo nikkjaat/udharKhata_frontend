@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { createContext, useMemo, useState, useRef, useEffect } from "react";
+import { createContext, useMemo, useState, useRef } from "react";
 
 import { io } from "socket.io-client";
 

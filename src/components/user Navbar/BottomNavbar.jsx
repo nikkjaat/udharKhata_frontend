@@ -15,6 +15,8 @@ import Error from "../Error/Error";
 import io from "socket.io-client";
 import PaidAmount from "../PayBill/PaidAmount";
 import ShopkeeprDetails from "../Shopkeeper Details/ShopkeeperDetails";
+import GpayPayment from "../../user/GpayPayment";
+import RazorPay from "../../user/RazorPay";
 
 export default function BottomNavbar(props) {
   const authCtx = useContext(AuthContext);
@@ -44,7 +46,7 @@ export default function BottomNavbar(props) {
   //   authCtx.socket.current.emit("addUsers", authCtx.userId);
   // }, []);
 
-  // console.log(props.data);
+  console.log(props.totalPrice);
 
   const getNewMessage = async () => {
     const response = await axios.get(
@@ -190,6 +192,8 @@ export default function BottomNavbar(props) {
               paidAmount={paidAmount}
               shopkeeperName={props.data.shopkeeperName}
               number={props.shopkeeper.number}
+              getItems={props.getItems}
+              getPaidAmount={getPaidAmount}
             />
           </div>
           <div className={styles.iconsContainer}>
@@ -202,7 +206,16 @@ export default function BottomNavbar(props) {
               <FontAwesomeIcon icon={faWhatsapp} />
             </Link>
             <Link title="Pay">
-              <FontAwesomeIcon icon={faCcAmazonPay} />
+              {/* <FontAwesomeIcon icon={faCcAmazonPay} /> */}
+              {/* <GpayPayment /> */}
+              <RazorPay
+                shopkeeperName={props.data.shopkeeperName}
+                number={props.shopkeeper.number}
+                price={props.totalPrice - paidAmount}
+                data={props.data}
+                getItems={props.getItems}
+                getPaidAmount={getPaidAmount}
+              />
             </Link>
             <Link title="Chat">
               <Chat
@@ -228,6 +241,7 @@ export default function BottomNavbar(props) {
               paidData={paidData}
               price={props.totalPrice - paidAmount}
               getPaidAmount={getPaidAmount}
+              getItems={props.getItems}
             />
           </div>
         </nav>
