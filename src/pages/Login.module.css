@@ -9,7 +9,7 @@
 }
 
 .container form {
-  background-color: var(---mainColor);
+  background-color: red;
   padding: 2em;
   border-radius: 1em;
 }
