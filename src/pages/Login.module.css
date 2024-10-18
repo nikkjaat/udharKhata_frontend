@@ -49,6 +49,7 @@
 .signupLink {
   float: right;
   margin-top: 1rem;
+  color : "white";
 }
 
 .container form button {
