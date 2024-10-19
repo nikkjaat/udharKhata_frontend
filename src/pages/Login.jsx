@@ -56,7 +56,8 @@ export default function Login() {
           {
             number,
             password,
-          }
+          },
+          { withCredentials: true }
         );
         console.log(response);
         if (response.status === 200) {
