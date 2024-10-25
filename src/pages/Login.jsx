@@ -18,7 +18,7 @@ export default function Login() {
   const [admin, setAdmin] = useState(false);
   const [otpBtn, setOtpBtn] = useState(false);
   const [otp, setOtp] = useState(false);
-  const {showPassword, setShowPassword} = useState('password')
+  const [showPassword, setShowPassword] = useState('password')
 
   const adminHandler = (e) => {
     setAdmin(e.target.checked);
