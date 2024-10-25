@@ -137,7 +137,7 @@ export default function Login() {
                   placeholder="Password"
                   required
                 />
-               
+               <i class="fa-solid fa-eye"></i>
               </>
             )}
             {otp && (
