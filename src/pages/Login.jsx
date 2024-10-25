@@ -18,6 +18,7 @@ export default function Login() {
   const [admin, setAdmin] = useState(false);
   const [otpBtn, setOtpBtn] = useState(false);
   const [otp, setOtp] = useState(false);
+  const {showPassword, setShowPassword} = useState('password')
 
   const adminHandler = (e) => {
     setAdmin(e.target.checked);
@@ -97,6 +98,14 @@ export default function Login() {
     }
   };
 
+  const showPassword = ()=>{
+    if(showPassword === "password"){
+      setShowPassword("text")
+    }else{
+      setShowPassword("password")
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -134,13 +143,13 @@ export default function Login() {
                   onChange={(e) => {
                     inputHandler("password", e.target.value);
                   }}
-                  type="text"
+                  type="password"
                   className={styles.input}
                   id="exampleInputPassword1"
                   placeholder="Password"
                   required
                 />
-               <FontAwesomeIcon icon={faEye} />
+               <FontAwesomeIcon onClick={showPassword} icon={faEye} />
               </>
             )}
             {otp && (
