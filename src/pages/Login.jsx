@@ -98,7 +98,7 @@ export default function Login() {
     }
   };
 
-  const showPassword = ()=>{
+  const showPasswordOnClick = ()=>{
     if(showPassword === "password"){
       setShowPassword("text")
     }else{
@@ -149,7 +149,7 @@ export default function Login() {
                   placeholder="Password"
                   required
                 />
-               <FontAwesomeIcon onClick={showPassword} icon={faEye} />
+               <FontAwesomeIcon onClick={showPasswordOnClick} icon={faEye} />
               </>
             )}
             {otp && (
