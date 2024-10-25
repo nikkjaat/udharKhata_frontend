@@ -4,6 +4,7 @@ import Navbar from "../components/navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 export default function Login() {
