@@ -131,7 +131,7 @@ export default function Login() {
                   onChange={(e) => {
                     inputHandler("password", e.target.value);
                   }}
-                  type="password"
+                  type="text"
                   className={styles.input}
                   id="exampleInputPassword1"
                   placeholder="Password"
