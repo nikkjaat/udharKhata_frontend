@@ -4,7 +4,7 @@ import Navbar from "../components/navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
-import { FaEye } from "react-icons/fa";
+
 
 export default function Login() {
   const authCtx = useContext(AuthContext);
@@ -137,7 +137,7 @@ export default function Login() {
                   placeholder="Password"
                   required
                 />
-                <FaEye />
+               
               </>
             )}
             {otp && (
