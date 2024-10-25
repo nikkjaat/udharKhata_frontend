@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+
 
 
 export default function Login() {
@@ -138,7 +140,7 @@ export default function Login() {
                   placeholder="Password"
                   required
                 />
-               <FontAwesomeIcon icon="fa-solid fa-eye" />
+               <FontAwesomeIcon icon={faEye} />
               </>
             )}
             {otp && (
