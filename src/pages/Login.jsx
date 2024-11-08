@@ -53,7 +53,7 @@ export default function Login() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    console.log("ADMIN")
     if (admin) {
       try {
         const response = await axios.post(
