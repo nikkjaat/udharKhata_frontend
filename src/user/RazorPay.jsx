@@ -118,7 +118,10 @@ export default function RazorPay({
 
   return (
     <div>
-      <button onClick={paymentHandler} id="rzp-button1">
+      <button
+        style={{ padding: ".5em 1em", fontSize: ".6em", width: "4em" }}
+        onClick={paymentHandler}
+        id="rzp-button1">
         Pay
       </button>
     </div>
