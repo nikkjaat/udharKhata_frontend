@@ -4,6 +4,10 @@ import Navbar from "../components/navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+
+
 
 export default function Login() {
   const authCtx = useContext(AuthContext);
@@ -14,6 +18,7 @@ export default function Login() {
   const [admin, setAdmin] = useState(false);
   const [otpBtn, setOtpBtn] = useState(false);
   const [otp, setOtp] = useState(false);
+  const [showPassword, setShowPassword] = useState('password')
 
   const adminHandler = (e) => {
     setAdmin(e.target.checked);
@@ -48,7 +53,7 @@ export default function Login() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    console.log("ADMIN")
     if (admin) {
       try {
         const response = await axios.post(
@@ -56,7 +61,8 @@ export default function Login() {
           {
             number,
             password,
-          }
+          },
+          // { withCredentials: true }
         );
         console.log(response);
         if (response.status === 200) {
@@ -91,6 +97,14 @@ export default function Login() {
       }
     }
   };
+
+  const showPasswordOnClick = ()=>{
+    if(showPassword === "password"){
+      setShowPassword("text")
+    }else{
+      setShowPassword("password")
+    }
+  }
 
   return (
     <>
@@ -129,12 +143,13 @@ export default function Login() {
                   onChange={(e) => {
                     inputHandler("password", e.target.value);
                   }}
-                  type="password"
+                  type={showPassword}
                   className={styles.input}
                   id="exampleInputPassword1"
                   placeholder="Password"
                   required
                 />
+               <FontAwesomeIcon onClick={showPasswordOnClick} icon={faEye} />
               </>
             )}
             {otp && (
