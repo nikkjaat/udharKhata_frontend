@@ -134,10 +134,9 @@ export default function Card(props) {
         </div>
         <div className="card-subtitle">Total Item - {myProduct.length}</div>
         <div className="card-subtitle">Due Amount - Rs. {totalPrice}</div>
-        <p style={{ textAlign: "center", color : "red" }}>Arun Reminds you</p>
+        {/* <p style={{ textAlign: "center", color : "red" }}>Arun Reminds you</p> */}
       </div>
-      <div>
-      </div>
+      <div></div>
       <ul className={styles.card_social}>
         <li className={styles.card_social__item}>
           <Link>
