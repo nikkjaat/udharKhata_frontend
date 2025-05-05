@@ -12,30 +12,24 @@ export default function AddCustomer(props) {
   const [customerName, setCustomerName] = useState("");
   const [shopkeeperName, setShopkeeperName] = useState("");
   const [number, setNumber] = useState("");
-
   const [otp, setOtp] = useState(null);
+
   const authCtx = useContext(AuthContext);
 
   const customerInputHandler = (event, value) => {
-    if (event === "name") {
-      setCustomerName(value);
-    } else if (event === "shopkeeperName") {
-      setShopkeeperName(value);
-    } else if (event === "number") {
-      setNumber(value);
-    } else {
-      setOtp(value);
-    }
+    if (event === "name") setCustomerName(value);
+    else if (event === "shopkeeperName") setShopkeeperName(value);
+    else if (event === "number") setNumber(value);
+    else setOtp(value);
   };
 
   useEffect(() => {
-    // Update the disabledBtn state based on input conditions
     if (number.length === 10 && customerName.length > 3) {
       setDisabledBtn(false);
     } else {
       setDisabledBtn(true);
     }
-  }, [number, shopkeeperName, customerName]);
+  }, [number, customerName]);
 
   const sentOtp = async () => {
     try {
@@ -49,33 +43,19 @@ export default function AddCustomer(props) {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         setGetOtp(true);
-        props.setAlert(true);
-        props.setAlertType("success");
-        props.setAlertMessage(response.data.message);
       }
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 403) {
-          console.log("Customer already exists");
-          props.setAlert(true);
-          props.setAlertType("warning");
-          props.setAlertMessage(error.response.data.message);
-        }
-        if (error.response.status === 500) {
-          console.log("Customer already exists");
-          props.setAlert(true);
-          props.setAlertType("warning");
-          props.setAlertMessage(error.response.data.error);
-          alert(error.response.data.error);
-        }
+        console.error("Error:", error.response.data.message);
+        alert(error.response.data.message || "Something went wrong");
       }
     }
   };
 
-  const addCustomerHandler = async () => {
+  const addCustomerHandler = async (e) => {
+    e.preventDefault(); // prevent page reload
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/admin/addcustomer`,
@@ -93,147 +73,116 @@ export default function AddCustomer(props) {
         }
       );
 
-      // Check for successful response (2xx status codes)
       if (response.status === 200) {
-        console.log("Add");
-        setDisabledBtn(true);
-        props.setAlert(true);
-        props.setAlertType("success");
-        props.setAlertMessage(response.data.message);
+        props.getCustomer();
         authCtx.refreshHandler();
+
+        // Clear form
+        setCustomerName("");
+        setNumber("");
+        setOtp(null);
+        setGetOtp(false);
         setAddCustomer(false);
-      } else {
-        // Handle other successful status codes (if needed)
+        setDisabledBtn(true);
       }
     } catch (error) {
-      // Handle error responses
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        if (error.response.status === 404) {
-          console.log("Invalid OTP");
-          props.setAlert(true);
-          props.setAlertType("error");
-          props.setAlertMessage("Invalid OTP");
-        } else if (error.response.status === 403) {
-          console.log("OTP expired");
-          props.setAlert(true);
-          props.setAlertType("warning");
-          props.setAlertMessage("Your OTP has expired");
-        } else {
-          // Handle other error status codes
-          console.error("Error:", error.response.data.message);
-          props.setAlert(true);
-          props.setAlertType("error");
-          props.setAlertMessage("An unexpected error occurred");
-        }
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error("No response received:", error.request);
-        props.setAlert(true);
-        props.setAlertType("error");
-        props.setAlertMessage("No response received from the server");
+        alert(error.response.data.message || "Submission failed");
       } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Error:", error.message);
-        props.setAlert(true);
-        props.setAlertType("error");
-        props.setAlertMessage("An unexpected error occurred");
+        console.error("Request failed:", error.message);
       }
     }
   };
 
-  return (
-    <>
-      <div style={{ maxWidth: "17em", minWidth: "10em", position: "relative" }}>
-        <div
-          onClick={() => {
-            setAddCustomer(!addCustomer);
-            setGetOtp(false);
-          }}
-          className={styles.addCustomerBtn}>
-          <b>
-            {!addCustomer ? (
-              <Button>Add Customer</Button>
-            ) : (
-              <Button
-                onClick={() => {
-                  setDisabledBtn(true);
-                }}
-                className="cancel">
-                Cancel
-              </Button>
-            )}
-          </b>
-        </div>
-        {addCustomer && (
-          <div className={styles.addCustomer}>
-            <div className={styles}>
-              <input
-                onChange={(e) => {
-                  customerInputHandler("name", e.target.value);
-                }}
-                required
-                type="text"
-                placeholder="Enter Customer Name"
-                name="customername"
-                id="customername"
-              />
-            </div>
-            <div className={styles}>
-              <input
-                type="number"
-                onChange={(e) => {
-                  customerInputHandler("number", e.target.value);
-                }}
-                required
-                placeholder="Enter Customer Number"
-                name="customernumber"
-                id="customernumber"
-              />
-            </div>
-            {!getOtp ? (
-              <button
-                disabled={disabledBtn}
-                onClick={() => {
-                  sentOtp();
-                }}
-                className={styles.getOtpBtn}>
-                Get otp
-              </button>
-            ) : (
-              <>
-                {" "}
-                <div className={styles}>
-                  <input
-                    onChange={(e) => {
-                      customerInputHandler("otp", e.target.value);
-                    }}
-                    type="number"
-                    placeholder="Enter OTP"
-                    name="otp"
-                    id="otp"
-                  />
-                </div>
-                <span
-                  style={{
-                    color: "blue",
-                    fontWeight: "400",
-                    position: "relative",
-                  }}>
-                  Resend
-                </span>
-              </>
-            )}
+  const handleCancel = () => {
+    setAddCustomer(false);
+    setGetOtp(false);
+    setCustomerName("");
+    setNumber("");
+    setOtp(null);
+    setDisabledBtn(true);
+  };
 
-            {getOtp && (
-              <button className={styles.submitBtn} onClick={addCustomerHandler}>
+  return (
+    <div
+      style={{
+        maxWidth: "100%",
+        minWidth: "10em",
+        position: "relative",
+        backgroundColor: !addCustomer ? "transparent" : "#ec8626",
+        padding: "1em 2em",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        borderRadius: "1em",
+      }}
+    >
+      <div
+        onClick={() => {
+          if (addCustomer) handleCancel();
+          else setAddCustomer(true);
+        }}
+        className={styles.addCustomerBtn}
+      >
+        <b>
+          {!addCustomer ? (
+            <Button>Add Customer</Button>
+          ) : (
+            <Button className="cancel">Cancel</Button>
+          )}
+        </b>
+      </div>
+
+      {addCustomer && (
+        <form className={styles.addCustomer} onSubmit={addCustomerHandler}>
+          <div>
+            <input
+              onChange={(e) => customerInputHandler("name", e.target.value)}
+              required
+              type="text"
+              placeholder="Enter Customer Name"
+              value={customerName}
+            />
+          </div>
+          <div>
+            <input
+              type="number"
+              onChange={(e) => customerInputHandler("number", e.target.value)}
+              required
+              placeholder="Enter Customer Number"
+              value={number}
+            />
+          </div>
+
+          {!getOtp ? (
+            <button
+              type="button"
+              disabled={disabledBtn}
+              onClick={sentOtp}
+              className={styles.getOtpBtn}
+            >
+              Get OTP
+            </button>
+          ) : (
+            <>
+              <div>
+                <input
+                  onChange={(e) => customerInputHandler("otp", e.target.value)}
+                  type="number"
+                  placeholder="Enter OTP"
+                  name="otp"
+                  value={otp || ""}
+                />
+              </div>
+              <span style={{ color: "blue", fontWeight: 400 }}>Resend</span>
+              <button type="submit" className={styles.submitBtn}>
                 Save
               </button>
-            )}
-          </div>
-        )}
-      </div>
-    </>
+            </>
+          )}
+        </form>
+      )}
+    </div>
   );
 }

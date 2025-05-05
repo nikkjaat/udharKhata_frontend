@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "../components/home/Body.module.css";
-import Button from "../components/Button/Button";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 import AddCustomer from "./AddCustomer";
@@ -14,7 +13,7 @@ export default function (props) {
   const [price, setPrice] = useState(null);
   const [productId, setProductId] = useState("");
   const [newMessage, setNewMessage] = useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState("");
   const authCtx = useContext(AuthContext);
   const customeCtx = useContext(CustomContext);
 
@@ -85,7 +84,7 @@ export default function (props) {
     }
   };
 
-  const eidtNadDeleteHandler = async (event, productId) => {
+  const editNadDeleteHandler = async (event, productId) => {
     if (event === "edit") {
       setProductId(productId);
       const response = await axios.get(
@@ -146,124 +145,20 @@ export default function (props) {
     }
   };
 
-  const unreadNotifications = async () => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/admin/unreadnotification?userId=${
-        props.customerData._id
-      }`,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + authCtx.token,
-        },
-      }
-    );
-    // console.log(response);
-  };
-
-  // const inputHandler = (event, value) => {
-  //   if (event === "name") {
-  //     setName(value);
-  //   } else {
-  //     setPrice(value);
-  //   }
-  // };
-
-  // const submitHandler = async (e) => {
-  //   e.preventDefault();
-  //   if (productId === "") {
-  //     try {
-  //       const response = await axios.post(
-  //         `${import.meta.env.VITE_BACKEND_URL}/admin/addproduct`,
-  //         {
-  //           name,
-  //           price,
-  //           userId: props.customerData._id,
-  //         },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: "Bearer " + authCtx.token,
-  //           },
-  //         }
-  //       );
-  //       // console.log(response);
-  //       if (response.status === 200) {
-  //         unreadNotifications();
-  //         authCtx.refreshHandler();
-  //         props.setAddProduct(false);
-  //         props.setAlert(true);
-  //         props.setAlertType("success");
-  //         props.setAlertMessage(response.data.message);
-  //         setName("");
-  //         setPrice("");
-  //         setProductId("");
-  //       }
-  //     } catch (error) {
-  //       if (error.request) {
-  //         console.error("No response received:", error.request);
-  //         props.setAlert(true);
-  //         props.setAlertType("error");
-  //         props.setAlertMessage("No response received from the server");
-  //       } else {
-  //         // Something happened in setting up the request that triggered an Error
-  //         console.error("Error:", error.message);
-  //         props.setAlert(true);
-  //         props.setAlertType("error");
-  //         props.setAlertMessage("An unexpected error occurred");
-  //       }
+  // const unreadNotifications = async () => {
+  //   const response = await axios.post(
+  //     `${import.meta.env.VITE_BACKEND_URL}/admin/unreadnotification?userId=${
+  //       props.customerData._id
+  //     }`,
+  //     {},
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + authCtx.token,
+  //       },
   //     }
-  //   } else {
-  //     try {
-  //       const response = await axios.put(
-  //         `${
-  //           import.meta.env.VITE_BACKEND_URL
-  //         }/admin/updateproduct?productId=${productId}`,
-  //         {
-  //           name,
-  //           price,
-  //         },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: "Bearer " + authCtx.token,
-  //           },
-  //         }
-  //       );
-  //       if (response.status === 200) {
-  //         authCtx.refreshHandler();
-  //         props.setAddProduct(false);
-  //         props.setAlert(true);
-  //         props.setAlertType("success");
-  //         props.setAlertMessage(response.data.message);
-  //         setName("");
-  //         setPrice("");
-  //         setProductId("");
-  //       }
-  //     } catch (error) {
-  //       if (error.response) {
-  //         if (error.response.status === 404) {
-  //           props.setAlert(true);
-  //           props.setAlertType("error");
-  //           props.setAlertMessage(response.data.message);
-  //         }
-  //       } else if (error.request) {
-  //         console.log("No response received:", error.request);
-  //         props.setAlert(true);
-  //         props.setAlertType("error");
-  //         props.setAlertMessage("No response received from the server");
-  //       } else {
-  //         console.error("Error:", error.message);
-  //         props.setAlert(true);
-  //         props.setAlertType("error");
-  //         props.setAlertMessage("An unexpected error occurred");
-  //       }
-  //     }
-  //   }
+  //   );
   // };
-
-  // console.log(props.customerData);
 
   const deleteAllData = async (adminId, customerId) => {
     try {
@@ -291,7 +186,8 @@ export default function (props) {
                   props.customerData.userId,
                   props.customerData._id
                 );
-              }}>
+              }}
+            >
               Clear all Data <i className="fa fa-trash"></i>
             </div>
           )}
@@ -333,13 +229,15 @@ export default function (props) {
                         // eidtNadDeleteHandler("edit", product._id);
                         props.setProductId(product._id);
                         props.setOpen(true);
-                      }}>
+                      }}
+                    >
                       <i className="fa fa-edit"></i>
                     </span>
                     <span
                       onClick={() => {
-                        eidtNadDeleteHandler("delete", product._id);
-                      }}>
+                        editNadDeleteHandler("delete", product._id);
+                      }}
+                    >
                       <i className="fa fa-trash"></i>
                     </span>
                   </div>

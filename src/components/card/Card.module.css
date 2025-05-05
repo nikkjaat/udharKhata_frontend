@@ -96,7 +96,7 @@
 }
 
 .card:hover .card_social {
-  transform: translateY(100%);
+  transform: translateY(50%);
   opacity: 1;
 }
 

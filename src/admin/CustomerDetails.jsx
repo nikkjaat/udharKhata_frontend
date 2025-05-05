@@ -5,7 +5,6 @@ import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 
-
 export default function CustomerDetails(props) {
   const [edit, setEdit] = useState(false);
   const [getOTP, setGetOTP] = useState(false);
@@ -310,7 +309,8 @@ export default function CustomerDetails(props) {
                         fontSize: ".7em",
                         borderRadius: "1em",
                         cursor: "pointer",
-                      }}>
+                      }}
+                    >
                       Verify
                     </span>
                   ) : (
@@ -327,7 +327,8 @@ export default function CustomerDetails(props) {
                       }}
                       onClick={() => {
                         getOTPHandle();
-                      }}>
+                      }}
+                    >
                       Get OTP
                     </span>
                   )}
@@ -361,7 +362,8 @@ export default function CustomerDetails(props) {
                     fontSize: ".7em",
                     borderRadius: "1em",
                     cursor: "pointer",
-                  }}>
+                  }}
+                >
                   Submit
                 </span>
               ) : (
@@ -378,7 +380,8 @@ export default function CustomerDetails(props) {
                     fontSize: ".7em",
                     borderRadius: "1em",
                     cursor: "pointer",
-                  }}>
+                  }}
+                >
                   Submit
                 </span>
               )}
@@ -397,7 +400,8 @@ export default function CustomerDetails(props) {
                   borderRadius: ".3em",
                   textAlign: "center",
                   cursor: "pointer",
-                }}>
+                }}
+              >
                 Save
               </div>
             ) : (
@@ -428,7 +432,8 @@ export default function CustomerDetails(props) {
                   borderRadius: ".3em",
                   textAlign: "center",
                   cursor: "pointer",
-                }}>
+                }}
+              >
                 Cancel
               </div>
             ) : (

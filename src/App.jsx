@@ -6,18 +6,10 @@ import Signup from "./pages/Signup";
 import ProtectedRoute from "./util/ProtectedRoute";
 import User from "./user/User";
 import UserItems from "./user/UserItems";
-import PaidAmount from "./components/PayBill/PaidAmount";
-const { googlePayClient } = window;
+import AdminPanel from "./admin/AdminPanel";
+import AdminDashboard from "./admin/AdminDashboard";
 
 export default function App() {
-  const baseCardPaymentMethod = {
-    type: "CARD",
-    parameters: {
-      allowedCardNetworks: ["VISA", "MASTERCARD"],
-      allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-    },
-  };
-
   return (
     <BrowserRouter>
       <Routes>
@@ -27,7 +19,23 @@ export default function App() {
           path="/"
           element={
             <ProtectedRoute>
+              <AdminPanel />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/adminpanel"
+          element={
+            <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />

@@ -116,6 +116,7 @@ export default function UserItems() {
         shopkeeper={shopkeeper}
         totalPrice={totalPrice}
         data={data}
+        items={items.data}
       />
     </>
   );

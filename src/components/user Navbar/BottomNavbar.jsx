@@ -29,24 +29,7 @@ export default function BottomNavbar(props) {
   const [paidAmount, setPaidAmount] = useState(0);
   const [paidData, setPaidData] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
-  // const socket = io("http://localhost:4000");
-
-  // useEffect(() => {
-  //   // Listen for chat messages from the server
-  //   socket.on("chatMessage", (message) => {
-  //     setMessages((prevMessages) => [...prevMessages, message]);
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   authCtx.socket.current.emit("addUsers", authCtx.userId);
-  // }, []);
-
-  console.log(props.totalPrice);
+  const [open, setOpen] = useState(false);
 
   const getNewMessage = async () => {
     const response = await axios.get(
@@ -149,16 +132,21 @@ export default function BottomNavbar(props) {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/admin/getpaidamount?customerId=${
           props.data._id
-        }&adminId=${props.data.userId}`
+        }&adminId=${props.data.userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + authCtx.token,
+          },
+        }
       );
-      // console.log(response);
       if (response.status === 200) {
         setPaidData(response.data);
-        let price = 0;
-        response.data.forEach((item) => {
-          price += item.amount;
-          setPaidAmount(price);
-        });
+        // let price = 0;
+        // response.data.forEach((item) => {
+        //   price += item.amount;
+        //   setPaidAmount(price);
+        // });
       }
     } catch (error) {
       if (error.response) {
@@ -202,7 +190,8 @@ export default function BottomNavbar(props) {
               target="blank"
               to={`https://wa.me/+91${
                 props.shopkeeper && props.shopkeeper.number
-              }`}>
+              }`}
+            >
               <FontAwesomeIcon icon={faWhatsapp} />
             </Link>
             <Link title="Pay">
@@ -235,13 +224,17 @@ export default function BottomNavbar(props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-            }}>
+            }}
+          >
             <PaidAmount
+              buttonSx={customButtonStyle}
               customer={true}
               paidData={paidData}
-              price={props.totalPrice - paidAmount}
+              price={props.data.totalAmount - props.data.paidAmount}
               getPaidAmount={getPaidAmount}
               getItems={props.getItems}
+              open={open}
+              setOpen={setOpen}
             />
           </div>
         </nav>
@@ -249,3 +242,8 @@ export default function BottomNavbar(props) {
     </>
   );
 }
+
+const customButtonStyle = {
+  background: "rgba(0, 0, 0, 0.2)",
+  color: "white",
+};

@@ -12,12 +12,14 @@ import { TextField } from "@mui/material";
 import axios from "axios";
 import AuthContext from "../../Context/AuthContext";
 import CustomContext from "../../Context/CustomContext";
+import { useAlert } from "../../Context/AlertContext";
 
 function PaperComponent(props) {
   return (
     <Draggable
       handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}>
+      cancel={'[class*="MuiDialogContent-root"]'}
+    >
       <Paper {...props} />
     </Draggable>
   );
@@ -30,6 +32,7 @@ export default function PayBill({
   open,
   id,
   setId,
+  getCustomer,
 }) {
   // const [open, setOpen] = React.useState(false);
   const [amount, setAmount] = React.useState(null);
@@ -37,6 +40,8 @@ export default function PayBill({
   // const [userId, setUserId] = React.useState(id);
   const authCtx = React.useContext(AuthContext);
   const customCtx = React.useContext(CustomContext);
+
+  const { showAlert } = useAlert();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -85,13 +90,16 @@ export default function PayBill({
   }, [id]);
 
   const handleSubmit = async () => {
+    const finalPaidBy = paidBy && paidBy.trim() !== "" ? paidBy : "Cash"; // <<-- 👈 magic here
+
     if (!id) {
+      // POST request
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}/admin/paidamount`,
           {
             amount,
-            paidBy,
+            paidBy: finalPaidBy, // <<-- using finalPaidBy
             customerId: userId,
             adminId: authCtx.userId,
           },
@@ -103,27 +111,27 @@ export default function PayBill({
           }
         );
         if (response.status === 200) {
-          // console.log(response.data);
-
           handleClose();
           getPaidAmount();
           customCtx.getItems();
           customCtx.getPaidAmount();
+          getCustomer();
+          showAlert(response.data.message, "success");
         }
       } catch (error) {
-        if (error.response) {
-          if (error.response.status === 500) {
-            console.log(error.response);
-          }
-        }
+        console.log(error.response);
+        showAlert(error.message, "error");
       }
     } else {
+      // PUT request (update)
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_BACKEND_URL}/admin/updatepaidamount?id=${id}`,
           {
             amount,
-            paidBy,
+            paidBy: finalPaidBy, // <<-- using finalPaidBy
+            customerId: userId,
+            adminId: authCtx.userId,
           },
           {
             headers: {
@@ -133,15 +141,18 @@ export default function PayBill({
           }
         );
         if (response.status === 200) {
-          console.log(response.data);
-
           handleClose();
           setId("");
           getPaidAmount();
           customCtx.getItems();
           customCtx.getPaidAmount();
+          getCustomer();
+          showAlert(response.data.message, "success");
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error.response);
+        showAlert(error.message, "error");
+      }
     }
   };
 
@@ -155,16 +166,40 @@ export default function PayBill({
   return (
     <React.Fragment>
       <Button
-        sx={{ background: "black", color: "white" }}
-        variant=""
-        onClick={handleClickOpen}>
-        Pay &nbsp; <i class="bi bi-wallet2"></i>
+        disableRipple
+        disableElevation
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          m: 0,
+          p: 0,
+          textTransform: "none",
+          fontSize: 14,
+          width: "100%",
+          backgroundColor: "transparent",
+          color: "inherit",
+          "&:hover": {
+            backgroundColor: "transparent",
+          },
+          "&:focus": {
+            backgroundColor: "transparent",
+          },
+          "&:active": {
+            backgroundColor: "transparent",
+          },
+        }}
+        onClick={handleClickOpen}
+      >
+        Pay &nbsp; <i className="bi bi-wallet2"></i>
       </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}
         PaperComponent={PaperComponent}
-        aria-labelledby="draggable-dialog-title">
+        aria-labelledby="draggable-dialog-title"
+      >
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
           <b>Pay Bill</b>
         </DialogTitle>

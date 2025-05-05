@@ -1,0 +1,70 @@
+.card {
+  background-color: rgb(218, 233, 246);
+  border-radius: "10px";
+  margin: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 1em;
+  height: 10rem;
+  cursor: pointer;
+}
+
+.cardContent {
+  width: 100%; /* or any responsive unit */
+  max-width: 100%; /* prevent overflow */
+  box-sizing: border-box;
+}
+
+.container img {
+  width: 7em;
+  height: 7em;
+  object-fit: cover;
+}
+
+.cardContent p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: clamp(7em, 30vw, 20em);
+}
+
+.cardActions {
+  margin-left: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+@media screen and (max-width: 632.5px) {
+  .card {
+    height: 7rem;
+  }
+
+  .container img {
+    width: 5em;
+    height: 5em;
+  }
+
+  .cardContent h3 {
+    font-size: 1em;
+    font-weight: bold;
+  }
+
+  .cardActions button {
+    width: 7em;
+    /* height: 2.5em; */
+    font-size: 0.6em;
+  }
+}
+
+@media screen and (max-width: 400.5px) {
+  .card {
+    height: 5rem;
+  }
+
+  .container img {
+    width: 4em;
+    height: 4em;
+  }
+}

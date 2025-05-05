@@ -123,7 +123,8 @@ export default function Card(props) {
       onClick={() => {
         getItemDetails(props.customers._id);
       }}
-      className={styles.card}>
+      className={styles.card}
+    >
       {notification && <div className={styles.notificationDot}></div>}
 
       <div className={styles.card_info}>
@@ -133,6 +134,9 @@ export default function Card(props) {
         </div>
         <div className="card-subtitle">Total Item - {myProduct.length}</div>
         <div className="card-subtitle">Due Amount - Rs. {totalPrice}</div>
+        <p style={{ textAlign: "center", color : "red" }}>Arun Reminds you</p>
+      </div>
+      <div>
       </div>
       <ul className={styles.card_social}>
         <li className={styles.card_social__item}>
@@ -146,7 +150,8 @@ export default function Card(props) {
           <Link
             onClick={handleLinkClick}
             target="blank"
-            to={`https://wa.me/+91${whatsappNumber}`}>
+            to={`https://wa.me/+91${whatsappNumber}`}
+          >
             {" "}
             {/* <FontAwesomeIcon color="black" icon={faWhatsapp} /> */}
             {/* <FontAwesomeIcon icon={faSquareWhatsapp} /> */}

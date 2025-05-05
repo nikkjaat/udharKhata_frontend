@@ -1,8 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useMemo, useState, useRef } from "react";
 
-import { io } from "socket.io-client";
-
 const AuthContext = createContext({
   token: "",
   userId: "",
@@ -18,19 +16,13 @@ export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
-  // const socket = io("http://localhost:4000");
   const socket = useRef();
-
-  // useEffect(() => {
-  //   socket.current = io("ws://localhost:9000");
-  // }, []);
 
   const refreshHandler = () => {
     setRefresh(!refresh);
   };
 
   const loginHandler = (authToken) => {
-    // console.log(authToken);
     localStorage.setItem("authToken", authToken);
     setIsLoggedIn(true);
   };
@@ -47,18 +39,13 @@ export const AuthContextProvider = (props) => {
     }
   }, [isLoggedIn]);
 
-  // console.log(token);
-
   const userId = useMemo(() => {
     if (localStorage.getItem("authToken")) {
       setIsLoggedIn(true);
       const decodedToken = jwtDecode(localStorage.getItem("authToken"));
-      // console.log(decodedToken);
       return decodedToken.userId;
     }
   }, [isLoggedIn]);
-
-  // console.log(userId);
 
   return (
     <AuthContext.Provider
@@ -73,7 +60,8 @@ export const AuthContextProvider = (props) => {
         account,
         setAccount,
         socket,
-      }}>
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

@@ -7,14 +7,15 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import AuthContext from "../../Context/AuthContext";
+import { useAlert } from "../../Context/AlertContext";
 
 export default function AddItem(props) {
   //   const [open,setOpen] = React.useState(false);
   const [name, setName] = React.useState("");
   const [price, setPrice] = React.useState(null);
   const authCtx = React.useContext(AuthContext);
-
-  //   console.log(props.productId);
+  const [open, setOpen] = React.useState(false);
+  const { showAlert } = useAlert();
 
   const editHandler = async () => {
     const response = await axios.get(
@@ -41,12 +42,18 @@ export default function AddItem(props) {
 
   // Open the dialog
   const handleClickOpen = () => {
-    props.setOpen(true);
+    setOpen(true);
   };
+
+  React.useEffect(() => {
+    if (props.productId) {
+      handleClickOpen();
+    }
+  }, [props.productId]);
 
   // Close the dialog
   const handleClose = () => {
-    props.setOpen(false);
+    setOpen(false);
     setName("");
     setPrice("");
     props.setProductId("");
@@ -60,8 +67,6 @@ export default function AddItem(props) {
       setPrice(value);
     }
   };
-
-  //
 
   const unreadNotifications = async () => {
     const response = await axios.post(
@@ -98,11 +103,13 @@ export default function AddItem(props) {
             },
           }
         );
-
         if (response.status === 200) {
+          console.log(response.data.message);
           authCtx.refreshHandler();
           unreadNotifications();
+          showAlert(response.data.message, "success");
           handleClose();
+          props.getUserData();
         }
       } else {
         // Handle the case where productId is not empty
@@ -123,29 +130,52 @@ export default function AddItem(props) {
         );
         if (response.status === 200) {
           authCtx.refreshHandler();
+          showAlert(response.data.message, "success");
           handleClose();
           unreadNotifications();
+          props.getUserData();
         }
       }
     } catch (error) {
       if (error.response) {
         console.log(error.response);
+        showAlert(error.message, "error");
       }
     }
   };
 
   return (
     <React.Fragment>
-      <Button sx={{ background: "black" }} variant="" onClick={handleClickOpen}>
+      <Button
+        disableRipple
+        disableElevation
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          background: "",
+          m: 0,
+          p: 0,
+          textTransform: "none",
+          fontSize: 14,
+          width: "100%",
+          "&:hover": {
+            background: "white",
+          },
+        }}
+        variant=""
+        onClick={handleClickOpen}
+      >
         Add Item
       </Button>
       <Dialog
-        open={props.open}
+        open={open}
         onClose={handleClose}
         PaperProps={{
           component: "form",
           onSubmit: handleSubmit,
-        }}>
+        }}
+      >
         <DialogTitle>
           <b>{props.productId ? "Update Item" : "Add Item"}</b>
         </DialogTitle>

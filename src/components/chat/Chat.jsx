@@ -7,12 +7,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { InputBase, styled, Box } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRocketchat } from "@fortawesome/free-brands-svg-icons";
 import { Cached, Send } from "@mui/icons-material";
 import AuthContext from "../../Context/AuthContext";
 import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import io from "socket.io-client";
+
 
 // import { makeStyles } from "@mui/";
 
@@ -28,10 +26,6 @@ export default function Chat(props) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
   const [refreshing, setRefreshing] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   authCtx.socket.current.emit("addUsers", authCtx.userId);
-  // }, []);
 
   const scrollbarToBotttom = () => {
     if (scrollRef.current) {
@@ -95,7 +89,7 @@ export default function Chat(props) {
 
   return (
     <React.Fragment>
-      <Link sx={{ position: "relative" }} onClick={handleClickOpen("paper")}>
+      <div sx={{ position: "relative" }} onClick={handleClickOpen("paper")}>
         {props.newMessage && (
           <FontAwesomeIcon
             className={props.className}
@@ -104,8 +98,9 @@ export default function Chat(props) {
             icon={faCircleDot}
           />
         )}
-        <FontAwesomeIcon width={".7em"} icon={faRocketchat} />
-      </Link>
+        {/* <FontAwesomeIcon width={".7em"} icon={faRocketchat} /> */}
+        Message
+      </div>
 
       <Dialog
         id="container"
@@ -113,13 +108,15 @@ export default function Chat(props) {
         onClose={handleClose}
         scroll={scroll}
         aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description">
+        aria-describedby="scroll-dialog-description"
+      >
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-          }}>
+          }}
+        >
           <DialogTitle id="scroll-dialog-title">Chat</DialogTitle>
           <Cached
             onClick={handleRefreshClick}
@@ -139,7 +136,8 @@ export default function Chat(props) {
             maxWidth: "50%em",
             height: "30em",
           }}
-          dividers={scroll === "paper"}>
+          dividers={scroll === "paper"}
+        >
           {props.message.map((message) => {
             return (
               <>
@@ -157,7 +155,8 @@ export default function Chat(props) {
                     }}
                     id="scroll-dialog-description"
                     ref={descriptionElementRef}
-                    tabIndex={-1}>
+                    tabIndex={-1}
+                  >
                     {message.text}
                   </DialogContentText>
                 ) : (
@@ -174,7 +173,8 @@ export default function Chat(props) {
                     }}
                     id="scroll-dialog-description"
                     ref={descriptionElementRef}
-                    tabIndex={-1}>
+                    tabIndex={-1}
+                  >
                     {message.text}
                   </DialogContentText>
                 )}
@@ -206,7 +206,8 @@ export default function Chat(props) {
             sx={{ border: "none" }}
             title="Send"
             style={{ color: "white" }}
-            onClick={handleSend}>
+            onClick={handleSend}
+          >
             <Send />
           </SendButton>
         </DialogActions>
