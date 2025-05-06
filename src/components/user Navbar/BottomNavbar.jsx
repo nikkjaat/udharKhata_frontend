@@ -1,35 +1,30 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./BottomNavbar.module.css";
 import axios from "axios";
-import GooglePayButton from "@google-pay/button-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCcAmazonPay,
-  faRocketchat,
-  faWhatsapp,
-} from "@fortawesome/free-brands-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import Chat from "../chat/Chat";
 import AuthContext from "../../Context/AuthContext";
 import Error from "../Error/Error";
-import io from "socket.io-client";
 import PaidAmount from "../PayBill/PaidAmount";
 import ShopkeeprDetails from "../Shopkeeper Details/ShopkeeperDetails";
-import GpayPayment from "../../user/GpayPayment";
 import RazorPay from "../../user/RazorPay";
+import ConfirmAmountModal from "../../user/ConfirmAmountModal";
+import Button from "../Button/Button";
 
 export default function BottomNavbar(props) {
   const authCtx = useContext(AuthContext);
   const [message, setMessage] = useState([]);
-  // const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState(false);
   const [value, setValue] = useState("");
   const [alert, setAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
-  const [paidAmount, setPaidAmount] = useState(0);
   const [paidData, setPaidData] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const [showAmountModal, setShowAmountModal] = useState(false);
+  const [customAmount, setCustomAmount] = useState(null);
 
   const getNewMessage = async () => {
     const response = await axios.get(
@@ -37,7 +32,6 @@ export default function BottomNavbar(props) {
         props.shopkeeper._id
       }&number=${authCtx.userId}`
     );
-    // console.log(response);
     setNewMessage(response.data.newCustomerMessage);
   };
 
@@ -54,72 +48,47 @@ export default function BottomNavbar(props) {
         admin: false,
       }
     );
-    // console.log(response);
-    if (response.status === 200) {
-      getNewMessage();
-    }
+    if (response.status === 200) getNewMessage();
   };
 
   const sendMessage = async () => {
-    let message = {
+    const message = {
       senderId: authCtx.userId,
       receiverId: props.shopkeeper._id,
       text: value,
-      conversationId: props.shopkeeper._id + "?" + authCtx.userId,
+      conversationId: `${props.shopkeeper._id}?${authCtx.userId}`,
       admin: false,
     };
-    // socket.emit("chatMessage", message);
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/message/send`,
-        {
-          message,
-        }
+        { message }
       );
-      // console.log(response);
-
       if (response.status === 200) {
-        setAlert(!alert);
+        setAlert(true);
         setAlertType("success");
         setAlertMessage(response.data);
         getMessage();
         setValue("");
-        return response;
-      } else {
-        // Handle other successful status codes (if needed)
       }
     } catch (error) {
-      if (error.response) {
-        // Handle error response
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error("No response received:", error.request);
-        props.setAlert(true);
-        props.setAlertType("error");
-        props.setAlertMessage("No response received from the server");
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Error:", error.message);
-        props.setAlert(true);
-        props.setAlertType("error");
-        props.setAlertMessage("An unexpected error occurred");
-      }
+      console.error("Message send error:", error.message);
+      props.setAlert(true);
+      props.setAlertType("error");
+      props.setAlertMessage("An unexpected error occurred");
     }
   };
 
   const getMessage = async () => {
-    if (props.shopkeeper && props.shopkeeper._id) {
-      // console.log(props.shopkeeper._id);
-      // Check if props.shopkeeper and props.shopkeeper._id are not null or undefined
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/message/get?conversationId=${
-          props.shopkeeper._id + "?" + authCtx.userId
-        }`
-      );
-      // console.log(response);
-      if (response.status === 200) {
-        setMessage(response.data);
-      }
+    if (!props.shopkeeper?._id) return;
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/message/get?conversationId=${
+        props.shopkeeper._id
+      }?${authCtx.userId}`
+    );
+    if (response.status === 200) {
+      setMessage(response.data);
     }
   };
 
@@ -142,20 +111,9 @@ export default function BottomNavbar(props) {
       );
       if (response.status === 200) {
         setPaidData(response.data);
-        // let price = 0;
-        // response.data.forEach((item) => {
-        //   price += item.amount;
-        //   setPaidAmount(price);
-        // });
       }
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          console.log(error.response.data.message);
-        } else {
-          console.log(error.response.data.message);
-        }
-      }
+      console.log("Fetch paid amount error:", error?.response?.data?.message);
     }
   };
 
@@ -172,41 +130,67 @@ export default function BottomNavbar(props) {
         setAlert={setAlert}
       />
       <div className={styles.container}>
-        <nav className={`${styles.navbar} navbar justify-content-between`}>
-          <div>
-            {/* {props.data.shopkeeperName} */}
+        <nav className={styles.navbar}>
+          <div className={styles.leftSection}>
             <ShopkeeprDetails
               totalAmount={props.totalPrice}
-              paidAmount={paidAmount}
+              paidAmount={props.data.paidAmount}
               shopkeeperName={props.data.shopkeeperName}
               number={props.shopkeeper.number}
               getItems={props.getItems}
               getPaidAmount={getPaidAmount}
             />
           </div>
-          <div className={styles.iconsContainer}>
-            <Link
-              title="WhatsApp"
-              target="blank"
-              to={`https://wa.me/+91${
-                props.shopkeeper && props.shopkeeper.number
-              }`}
-            >
-              <FontAwesomeIcon icon={faWhatsapp} />
-            </Link>
-            <Link title="Pay">
-              {/* <FontAwesomeIcon icon={faCcAmazonPay} /> */}
-              {/* <GpayPayment /> */}
-              <RazorPay
+
+          <div className={styles.centerSection}>
+            <div className={styles.iconGroup}>
+              <Link
+                to={`https://wa.me/+91${props.shopkeeper?.number}`}
+                target="_blank"
+                title="Message on WhatsApp"
+              >
+                <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
+              </Link>
+
+              <Button
+                onClick={() => setShowAmountModal(true)}
+                style={{
+                  background: "#f1f1f1",
+                  padding: "8px 16px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+              >
+                Pay
+              </Button>
+
+              <ConfirmAmountModal
                 shopkeeperName={props.data.shopkeeperName}
                 number={props.shopkeeper.number}
-                price={props.totalPrice - paidAmount}
+                price={customAmount}
                 data={props.data}
                 getItems={props.getItems}
                 getPaidAmount={getPaidAmount}
+                open={showAmountModal}
+                onClose={() => setShowAmountModal(false)}
+                maxAmount={props.totalPrice - props.data.paidAmount}
+                onConfirm={(amount) => {
+                  setCustomAmount(amount);
+                }}
               />
-            </Link>
-            <Link title="Chat">
+
+              {/* {customAmount && (
+                <RazorPay
+                  shopkeeperName={props.data.shopkeeperName}
+                  number={props.shopkeeper.number}
+                  price={customAmount}
+                  data={props.data}
+                  getItems={props.getItems}
+                  getPaidAmount={getPaidAmount}
+                />
+              )} */}
+
               <Chat
                 readMessage={readMessage}
                 className={styles.chat}
@@ -217,15 +201,10 @@ export default function BottomNavbar(props) {
                 sendText={sendMessage}
                 newMessage={newMessage}
               />
-            </Link>
+            </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+
+          <div className={styles.rightSection}>
             <PaidAmount
               buttonSx={customButtonStyle}
               customer={true}
@@ -245,5 +224,5 @@ export default function BottomNavbar(props) {
 
 const customButtonStyle = {
   background: "rgba(0, 0, 0, 0.2)",
-  color: "white",
+  color: "black",
 };

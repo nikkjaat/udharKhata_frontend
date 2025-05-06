@@ -30,7 +30,7 @@ export default function ShopkeeprDetails(props) {
       <Button
         sx={{
           background: "rgb(0, 0, 0, .2)",
-          color: "white",
+          color: "black",
         }}
         variant=""
         onClick={handleClickOpen}>

@@ -2,20 +2,13 @@ import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import AuthContext from "../Context/AuthContext";
 
-export default function RazorPay({
-  price,
-  shopkeeperName,
-  number,
-  data,
-  getItems,
-  getPaidAmount,
-}) {
+export default function RazorPay(props) {
   const authCtx = useContext(AuthContext);
   const paymentHandler = async (e) => {
     e.preventDefault();
 
     try {
-      let amount = price * 100; // Amount in subunits (e.g., 5000 paise = 50 INR)
+      let amount = props.amount * 100; // Amount in subunits (e.g., 5000 paise = 50 INR)
       let currency = "INR";
 
       const response = await axios.post(
@@ -31,7 +24,7 @@ export default function RazorPay({
         }
       );
 
-      console.log(response);
+      // console.log(response);
 
       const { id: order_id } = response.data; // Extract order ID from response
 
@@ -61,10 +54,10 @@ export default function RazorPay({
             const res = await axios.post(
               `${import.meta.env.VITE_BACKEND_URL}/admin/paidamount`,
               {
-                amount: price.toString(),
+                amount: props.amount.toString(),
                 paidBy: "RazorPay",
-                customerId: data._id,
-                adminId: data.userId,
+                customerId: props.data._id,
+                adminId: props.data.userId,
               },
               {
                 headers: {
@@ -74,15 +67,15 @@ export default function RazorPay({
               }
             );
             if (res.status === 200) {
-              getItems();
-              getPaidAmount();
+              props.getItems();
+              props.getPaidAmount();
             }
           }
         },
         prefill: {
-          name: shopkeeperName, // your customer's name
+          name: props.shopkeeperName, // your customer's name
           email: "gaurav.kumar@example.com",
-          contact: number, // Provide the customer's phone number for better conversion rates
+          contact: props.number, // Provide the customer's phone number for better conversion rates
         },
         notes: {
           address: "Razorpay Corporate Office",
@@ -121,8 +114,9 @@ export default function RazorPay({
       <button
         style={{ padding: ".5em 1em", fontSize: ".6em", width: "4em" }}
         onClick={paymentHandler}
-        id="rzp-button1">
-        Pay
+        id="rzp-button1"
+      >
+        Confirm & Pay
       </button>
     </div>
   );
