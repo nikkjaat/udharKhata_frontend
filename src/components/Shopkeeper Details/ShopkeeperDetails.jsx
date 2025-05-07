@@ -33,7 +33,8 @@ export default function ShopkeeprDetails(props) {
           color: "black",
         }}
         variant=""
-        onClick={handleClickOpen}>
+        onClick={handleClickOpen}
+      >
         <b>{props.shopkeeperName}</b>
       </Button>
       <Dialog
@@ -41,12 +42,13 @@ export default function ShopkeeprDetails(props) {
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description">
+        aria-describedby="alert-dialog-slide-description"
+      >
         <DialogTitle>Shopkeeper Details</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             <Box sx={BoxStyle}>
-              <Typography sx={TypographyStyle}>Shopkeeper Name : </Typography>
+              <Typography sx={TypographyStyle}>Name : </Typography>
               <Typography sx={TypographyStyle}>
                 <b>{props.shopkeeperName}</b>
               </Typography>
@@ -62,10 +64,11 @@ export default function ShopkeeprDetails(props) {
               <Typography sx={TypographyStyle}>
                 <b
                   style={{
-                    color: "red",
+                    color: "blue",
                     display: "flex",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   {" "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +76,8 @@ export default function ShopkeeprDetails(props) {
                     height="16"
                     fill="currentColor"
                     class="bi bi-currency-rupee"
-                    viewBox="0 0 16 16">
+                    viewBox="0 0 16 16"
+                  >
                     <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z" />
                   </svg>{" "}
                   {props.totalAmount}
@@ -88,7 +92,8 @@ export default function ShopkeeprDetails(props) {
                     color: "green",
                     display: "flex",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   {" "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +101,8 @@ export default function ShopkeeprDetails(props) {
                     height="16"
                     fill="currentColor"
                     class="bi bi-currency-rupee"
-                    viewBox="0 0 16 16">
+                    viewBox="0 0 16 16"
+                  >
                     <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z" />
                   </svg>{" "}
                   {props.paidAmount}
@@ -108,17 +114,19 @@ export default function ShopkeeprDetails(props) {
               <Typography sx={TypographyStyle}>
                 <b
                   style={{
-                    color: "blue",
+                    color: "red",
                     display: "flex",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
                     fill="currentColor"
                     class="bi bi-currency-rupee"
-                    viewBox="0 0 16 16">
+                    viewBox="0 0 16 16"
+                  >
                     <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z" />
                   </svg>{" "}
                   {props.totalAmount - props.paidAmount}

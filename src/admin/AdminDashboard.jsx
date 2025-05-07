@@ -32,10 +32,18 @@ import { useAlert } from "../Context/AlertContext";
 import UserDetails from "../components/user details/UserDetails";
 import { fontGrid } from "@mui/material/styles/cssUtils";
 import Error from "../components/Error/Error";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton, Tooltip } from "@mui/material";
+import ListIcon from "@mui/icons-material/List";
+import CloseIcon from "@mui/icons-material/Close";
+import { FiRefreshCw } from "react-icons/fi";
+import { FiCalendar } from "react-icons/fi";
 
 const AdminDashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("md"));
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("id");
@@ -52,6 +60,7 @@ const AdminDashboard = () => {
   const [newMessage, setNewMessage] = useState(false);
   const [ring, setRing] = useState(false);
   const { showAlert } = useAlert();
+  const [showSidebar, setShowSidebar] = useState(true);
 
   const [summary, setSummary] = useState([
     { label: "Total Items", value: 0 },
@@ -279,7 +288,7 @@ const AdminDashboard = () => {
           },
         }
       );
-      if(response.status === 200) {
+      if (response.status === 200) {
         showAlert(response.data.message, "success");
       }
     } catch (error) {
@@ -292,18 +301,27 @@ const AdminDashboard = () => {
       <Navbar />
       <Box
         display="flex"
-        flexDirection={isMobile ? "column" : "row"}
+        flexDirection={isMobile ? "row" : "row"}
         height="100vh"
         bgcolor="#f5f5f5"
         paddingTop={isMobile ? 6 : 6.2}
       >
         {/* Sidebar */}
         <Box
-          width={isMobile ? "100%" : 240}
+          width={240}
           bgcolor="white"
           p={2}
           boxShadow={2}
-          sx={{ flexShrink: 0 }}
+          sx={{
+            flexShrink: 0,
+            height: "100%",
+            zIndex: 10,
+            transition: ".3s",
+            width: isMobile ? 160 : isLaptop ? 145 : 240,
+          }}
+          position={isMobile ? "fixed" : "relative"}
+          top={showSidebar && isMobile ? "0em" : 0}
+          left={showSidebar && isMobile ? "-17em" : 0}
         >
           <Typography variant="h6" fontWeight="bold" mb={3}>
             Admin Panel
@@ -386,7 +404,6 @@ const AdminDashboard = () => {
             ))}
           </List>
         </Box>
-
         {/* Main Content */}
         <Box
           flex={1}
@@ -404,7 +421,7 @@ const AdminDashboard = () => {
                 <Grid
                   sx={{ cursor: "pointer" }}
                   item
-                  xs={12}
+                  xs={6}
                   sm={6}
                   md={3}
                   key={index}
@@ -461,64 +478,87 @@ const AdminDashboard = () => {
           <Typography variant="h6" gutterBottom>
             Borrowed Items
           </Typography>
-          <TableContainer component={Paper}>
-            <Table size={isMobile ? "small" : "medium"}>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="start" style={{ width: "20%" }}>
-                    Item
-                  </TableCell>
-                  <TableCell align="start" style={{ width: "20%" }}>
-                    Price
-                  </TableCell>
-                  <TableCell align="start" style={{ width: "20%" }}>
-                    Date
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{ width: "10%" }}
-                  ></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {items
-                  .slice()
-                  .reverse()
-                  .map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="start">{row.name}</TableCell>
-                      <TableCell align="start">{row.price}</TableCell>
-                      <TableCell align="start">
-                        {formatDate(row.date)}
-                      </TableCell>
+          <Grid container spacing={2}>
+            {items
+              .slice()
+              .reverse()
+              .map((item, index) => (
+                <Grid item xs={12} sm={12} md={isLaptop ? 12 : 6} key={index}>
+                  <div className={styles.card}>
+                    {/* Group name and price */}
+                    <div className={styles.cardTop}>
+                      <div className={styles.iconAndName}>
+                        <div className={styles.icon}>🍞</div>
+                        <div className={styles.name}>{item.name}</div>
+                      </div>
+                      <div className={styles.date}>
+                        <FiCalendar size={14} style={{ marginRight: 4 }} />
+                        {new Date(item.date).toLocaleDateString()}
+                      </div>
+                    </div>
 
-                      <TableCell
-                        sx={{ display: "flex", gap: "1em" }}
-                        align="center"
-                      >
-                        <button
-                          onClick={() => {
-                            setProductId(row._id);
-                          }}
-                          style={{ background: "var(---mainColor)" }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => {
-                            deleteHandler(row._id);
-                          }}
-                          style={{ background: "#a80d1a" }}
-                        >
-                          Delete
-                        </button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    {/* Group date and buttons */}
+                    <div className={styles.cardBottom}>
+                      <div className={styles.price}>₹ {item.price}</div>
+
+                      <Box display="flex" gap={1} justifyContent="flex-end">
+                        <Tooltip title="Edit" arrow>
+                          <IconButton
+                            onClick={() => setProductId(item._id)}
+                            size="small"
+                            sx={{
+                              color: "white",
+                              backgroundColor: "#005fa3",
+                              "&:hover": { backgroundColor: "#005fa9" },
+                            }}
+                          >
+                            <EditIcon fontSize="inherit" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete" arrow>
+                          <IconButton
+                            onClick={() => deleteHandler(item._id)}
+                            size="small"
+                            sx={{
+                              color: "white",
+                              backgroundColor: "#a80d1a",
+                              "&:hover": { backgroundColor: "#8a0c15" },
+                            }}
+                          >
+                            <DeleteIcon fontSize="inherit" />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </div>
+                  </div>
+                </Grid>
+              ))}
+          </Grid>
         </Box>
+        {isMobile && (
+          <Box
+            onClick={() => setShowSidebar(!showSidebar)}
+            sx={{
+              position: "fixed",
+              bottom: "2em",
+              right: "2em",
+              cursor: "pointer",
+              background: "var(---mainColor)",
+              width: "3em",
+              height: "3em",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "50%",
+            }}
+          >
+            {showSidebar ? (
+              <ListIcon sx={{ fontSize: "2em" }} />
+            ) : (
+              <CloseIcon sx={{ fontSize: "2em" }} />
+            )}
+          </Box>
+        )}
       </Box>
     </>
   );
