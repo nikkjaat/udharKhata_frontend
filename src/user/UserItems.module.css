@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   gap: 1rem;
 }
 
@@ -9,8 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: #fff;
+  padding: 4rem 1.5rem 1rem;
 }
 
 .header h1 {
@@ -28,12 +27,13 @@
   font-weight: 500;
   cursor: pointer;
   color: #333;
+  font-size: 1rem;
 }
 
 .searchBar {
   display: flex;
   justify-content: center;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1.5rem;
 }
 
 .searchBar input {
@@ -44,6 +44,7 @@
   border: 1px solid #ddd;
   background: #f6f4f3;
   font-size: 1rem;
+  color: #333;
 }
 
 .card {
@@ -54,12 +55,14 @@
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  flex-wrap: wrap;
 }
 
 .cardLeft {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 1 1 50%;
 }
 
 .icon {
@@ -77,6 +80,8 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 0.25rem;
+  flex: 1 1 50%;
+  margin-top: 0.5rem;
 }
 
 .price {
@@ -90,4 +95,66 @@
   align-items: center;
   gap: 0.25rem;
   color: #666;
+}
+
+.noResults {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1rem;
+  color: #999;
+}
+
+/* ------------------ RESPONSIVE STYLES ------------------ */
+
+@media screen and (max-width: 768px) {
+  .header {
+    /* flex-direction: column;
+    align-items: flex-start;
+    padding-top: 2rem; */
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .reloadBtn {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .price,
+  .name {
+    font-size: 1rem;
+  }
+
+  .searchBar input {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header {
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  .searchBar {
+    padding: 0.5rem 1rem;
+  }
+
+  .card {
+    padding: 0.75rem;
+  }
+
+  .icon {
+    font-size: 1.25rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+
+  .date {
+    font-size: 0.8rem;
+  }
 }

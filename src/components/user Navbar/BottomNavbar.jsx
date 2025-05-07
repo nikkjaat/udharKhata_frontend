@@ -154,7 +154,7 @@ export default function BottomNavbar(props) {
 
               <Button
                 onClick={() => setShowAmountModal(true)}
-                style={{
+                styles={{
                   background: "#f1f1f1",
                   padding: "8px 16px",
                   borderRadius: "8px",
@@ -179,17 +179,6 @@ export default function BottomNavbar(props) {
                   setCustomAmount(amount);
                 }}
               />
-
-              {/* {customAmount && (
-                <RazorPay
-                  shopkeeperName={props.data.shopkeeperName}
-                  number={props.shopkeeper.number}
-                  price={customAmount}
-                  data={props.data}
-                  getItems={props.getItems}
-                  getPaidAmount={getPaidAmount}
-                />
-              )} */}
 
               <Chat
                 readMessage={readMessage}

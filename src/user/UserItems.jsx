@@ -11,6 +11,8 @@ export default function UserItems() {
   const [items, setItems] = useState([]);
   const [shopkeeper, setShopkeeper] = useState("");
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredItems, setFilteredItems] = useState([]);
   const authCtx = useContext(AuthContext);
   let totalPrice = 0;
 
@@ -29,6 +31,7 @@ export default function UserItems() {
     );
     if (response.status === 200) {
       setItems(response.data);
+      setFilteredItems(response.data.data || []); // Initialize filtered items with all items
     }
   };
 
@@ -36,26 +39,38 @@ export default function UserItems() {
     getItems();
   }, []);
 
-  if (items.data) {
-    items.data.forEach((item) => {
+  // Filter items based on search term
+  useEffect(() => {
+    if (items.data) {
+      const filtered = items.data.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredItems(filtered);
+    }
+  }, [searchTerm, items]);
+
+  if (filteredItems) {
+    filteredItems.forEach((item) => {
       totalPrice += item.price;
     });
   }
 
   const getShopkeeper = async () => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/user/getshopkeepername?userId=${
-        items.data[0].userId
-      }`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + authCtx.token,
-        },
-      }
-    );
-    setData(response.data.data);
-    getAdmin(response.data.data.userId);
+    if (items.data && items.data.length > 0) {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/user/getshopkeepername?userId=${
+          items.data[0].userId
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + authCtx.token,
+          },
+        }
+      );
+      setData(response.data.data);
+      getAdmin(response.data.data.userId);
+    }
   };
 
   useEffect(() => {
@@ -77,6 +92,10 @@ export default function UserItems() {
     }
   };
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <>
       <UserNavbar />
@@ -88,12 +107,17 @@ export default function UserItems() {
       </div>
 
       <div className={styles.searchBar}>
-        <input type="text" placeholder="Search" />
+        <input
+          type="text"
+          placeholder="Search items..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
       </div>
 
       <div className={styles.container}>
-        {items.data &&
-          items.data.map((item, index) => (
+        {filteredItems.length > 0 ? (
+          filteredItems.map((item, index) => (
             <div key={index} className={styles.card}>
               <div className={styles.cardLeft}>
                 <div className={styles.icon}>🍞</div>
@@ -107,7 +131,12 @@ export default function UserItems() {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className={styles.noResults}>
+            {searchTerm ? "No items match your search" : "No items found"}
+          </div>
+        )}
       </div>
 
       <BottomNavbar
@@ -115,7 +144,7 @@ export default function UserItems() {
         shopkeeper={shopkeeper}
         totalPrice={totalPrice}
         data={data}
-        items={items.data}
+        items={filteredItems} // Pass filtered items instead of all items
       />
     </>
   );

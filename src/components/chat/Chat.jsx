@@ -11,7 +11,6 @@ import { Cached, Send } from "@mui/icons-material";
 import AuthContext from "../../Context/AuthContext";
 import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
 
-
 // import { makeStyles } from "@mui/";
 
 const SendButton = styled(Button)`
@@ -89,7 +88,10 @@ export default function Chat(props) {
 
   return (
     <React.Fragment>
-      <div sx={{ position: "relative" }} onClick={handleClickOpen("paper")}>
+      <div
+        style={{ position: "relative", cursor: "pointer" }}
+        onClick={handleClickOpen("paper")}
+      >
         {props.newMessage && (
           <FontAwesomeIcon
             className={props.className}
@@ -98,8 +100,8 @@ export default function Chat(props) {
             icon={faCircleDot}
           />
         )}
-        {/* <FontAwesomeIcon width={".7em"} icon={faRocketchat} /> */}
-        Message
+        {/* <FontAwesomeIcon width={".7em"} icon={faRocketchat} />   */}
+        Chat
       </div>
 
       <Dialog
