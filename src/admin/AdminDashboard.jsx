@@ -501,7 +501,7 @@ const AdminDashboard = () => {
                     <div className={styles.cardBottom}>
                       <div className={styles.price}>₹ {item.price}</div>
 
-                      <Box display="flex" gap={1} justifyContent="flex-end">
+                      <Box display="flex" gap={2} justifyContent="flex-end">
                         <Tooltip title="Edit" arrow>
                           <IconButton
                             onClick={() => setProductId(item._id)}

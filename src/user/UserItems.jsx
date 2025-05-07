@@ -12,6 +12,7 @@ export default function UserItems() {
   const [shopkeeper, setShopkeeper] = useState("");
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isRotating, setIsRotating] = useState(false);
   const [filteredItems, setFilteredItems] = useState([]);
   const authCtx = useContext(AuthContext);
   let totalPrice = 0;
@@ -96,23 +97,31 @@ export default function UserItems() {
     setSearchTerm(e.target.value);
   };
 
+  const handleReload = async () => {
+    setIsRotating(true); // start rotation
+    await getItems(); // fetch data
+    setTimeout(() => setIsRotating(false), 1000); // remove animation after 1s
+  };
+
   return (
     <>
       <UserNavbar />
       <div className={styles.header}>
-        <h1>udhaarKhata</h1>
-        <button className={styles.reloadBtn} onClick={getItems}>
-          <FiRefreshCw /> Reload
+        <h1>{data.name}</h1>
+        <div className={styles.searchBar}>
+          <input
+            type="text"
+            placeholder="Search items..."
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
+        <button className={styles.reloadBtn} onClick={handleReload}>
+          <span className={isRotating ? styles.rotate : ""}>
+            <FiRefreshCw />
+          </span>
+          <span style={{ marginLeft: "6px" }}>Reload</span>
         </button>
-      </div>
-
-      <div className={styles.searchBar}>
-        <input
-          type="text"
-          placeholder="Search items..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
       </div>
 
       <div className={styles.container}>
