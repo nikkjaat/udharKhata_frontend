@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import AuthContext from "../../Context/AuthContext";
+import { useAlert } from "../../Context/AlertContext";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -32,6 +33,7 @@ export default function ShopkeeprDetails(props) {
   const [verifyingNewNumber, setVerifyingNewNumber] = React.useState(false);
   const [originalNumber, setOriginalNumber] = React.useState("");
   const authCtx = React.useContext(AuthContext);
+  const { showAlert } = useAlert();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -129,7 +131,8 @@ export default function ShopkeeprDetails(props) {
           setNumberEditable(true);
           setVerifyingNewNumber(false);
           // setShowOTPField(false);
-          alert("OTP verified successfully!");
+          // alert("OTP verified successfully!");
+          showAlert(response.data.message, "success");
         }
       } catch (error) {
         console.log(error);
@@ -160,10 +163,8 @@ export default function ShopkeeprDetails(props) {
 
       if (response.status === 200) {
         setEditMode(false);
+        showAlert(response.data.message, "success");
         authCtx.refreshHandler();
-        props.setAlert(true);
-        props.setAlertType("success");
-        props.setAlertMessage(response.data.message);
       }
     } catch (error) {
       console.error("Error updating customer:", error);

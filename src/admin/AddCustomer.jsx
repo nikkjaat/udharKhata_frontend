@@ -3,7 +3,7 @@ import styles from "../components/home/Body.module.css";
 import Button from "../components/Button/Button";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
-import Error from "../components/Error/Error";
+import { useAlert } from "../Context/AlertContext";
 
 export default function AddCustomer(props) {
   const [getOtp, setGetOtp] = useState(false);
@@ -13,6 +13,7 @@ export default function AddCustomer(props) {
   const [shopkeeperName, setShopkeeperName] = useState("");
   const [number, setNumber] = useState("");
   const [otp, setOtp] = useState(null);
+  const { showAlert } = useAlert();
 
   const authCtx = useContext(AuthContext);
 
@@ -80,6 +81,7 @@ export default function AddCustomer(props) {
       if (response.status === 200) {
         props.getCustomer();
         authCtx.refreshHandler();
+        showAlert(response.data.message, "success");
 
         // Clear form
         setCustomerName("");
@@ -92,6 +94,7 @@ export default function AddCustomer(props) {
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message || "Submission failed");
+        // showAlert(response.data.message, "error");
       } else {
         console.error("Request failed:", error.message);
       }
