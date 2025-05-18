@@ -43,7 +43,11 @@ export default function AddCustomer(props) {
           },
         }
       );
+      console.log(response);
       if (response.status === 200) {
+        alert(
+          `"Twilio is Inactive in India". Use this OTP : ${response.data.otp}`
+        );
         setGetOtp(true);
       }
     } catch (error) {
@@ -72,7 +76,7 @@ export default function AddCustomer(props) {
           },
         }
       );
-
+      console.log(response);
       if (response.status === 200) {
         props.getCustomer();
         authCtx.refreshHandler();

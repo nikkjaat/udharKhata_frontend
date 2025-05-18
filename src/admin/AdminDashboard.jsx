@@ -24,20 +24,16 @@ import AuthContext from "../Context/AuthContext";
 import AddItem from "../components/Add Item/AddItem";
 import PayBill from "../components/PayBill/PayBill";
 import PaidAmount from "../components/PayBill/PaidAmount";
-import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Chat from "../components/chat/Chat";
 import styles from "./AdminDashboard.module.css";
 import { useAlert } from "../Context/AlertContext";
 import UserDetails from "../components/user details/UserDetails";
-import { fontGrid } from "@mui/material/styles/cssUtils";
-import Error from "../components/Error/Error";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton, Tooltip } from "@mui/material";
 import ListIcon from "@mui/icons-material/List";
 import CloseIcon from "@mui/icons-material/Close";
-import { FiRefreshCw } from "react-icons/fi";
 import { FiCalendar } from "react-icons/fi";
 
 const AdminDashboard = () => {

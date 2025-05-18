@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Home from "./pages/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
@@ -8,8 +8,12 @@ import User from "./user/User";
 import UserItems from "./user/UserItems";
 import AdminPanel from "./admin/AdminPanel";
 import AdminDashboard from "./admin/AdminDashboard";
+import AuthContext from "./Context/AuthContext";
 
 export default function App() {
+  const authCtx = useContext(AuthContext);
+
+  console.log(authCtx.isAdmin);
   return (
     <BrowserRouter>
       <Routes>
@@ -19,7 +23,7 @@ export default function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <AdminPanel />
+              {authCtx.isAdmin ? <AdminPanel /> : <User />}
             </ProtectedRoute>
           }
         />
@@ -39,14 +43,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/user"
-          element={
-            <ProtectedRoute>
-              <User />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="/useritems"
           element={

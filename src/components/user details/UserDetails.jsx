@@ -97,7 +97,9 @@ export default function ShopkeeprDetails(props) {
 
       if (response.status === 200) {
         setShowOTPField(true);
-        alert(`OTP sent to ${editedCustomer.number}`);
+        alert(
+          `"Twilio is Inactive in India." Use this OTP: ${response.data.otp}`
+        );
       }
     } catch (error) {
       console.error("OTP sending failed:", error);

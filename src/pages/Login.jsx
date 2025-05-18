@@ -4,10 +4,8 @@ import Navbar from "../components/navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
   const authCtx = useContext(AuthContext);
@@ -18,7 +16,7 @@ export default function Login() {
   const [admin, setAdmin] = useState(false);
   const [otpBtn, setOtpBtn] = useState(false);
   const [otp, setOtp] = useState(false);
-  const [showPassword, setShowPassword] = useState('password')
+  const [showPassword, setShowPassword] = useState("password");
 
   const adminHandler = (e) => {
     setAdmin(e.target.checked);
@@ -48,63 +46,55 @@ export default function Login() {
       `${import.meta.env.VITE_BACKEND_URL}/user/getotp?number=${number}`
     );
 
-    console.log(response);
+    if (response.status === 200) {
+      console.log(response.data.otp);
+      alert(`OTP is : ${response.data.otp}`);
+    }
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("ADMIN")
+
     if (admin) {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}/admin/login`,
-          {
-            number,
-            password,
-          },
-          // { withCredentials: true }
+          { number, password }
         );
-        console.log(response);
+
         if (response.status === 200) {
           authCtx.refreshHandler();
-          authCtx.loginHandler(response.data.authToken);
-          navigate("/");
+          authCtx.loginHandler(response.data.authToken, response.data.admin);
+          navigate("/"); // Same route for both
         }
       } catch (error) {
-        if (error) {
-          console.log(error.response);
-        }
+        console.error("Admin login error:", error.response?.data);
       }
     } else {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}/user/login`,
-          {
-            number,
-            otp: OTP,
-          }
+          { number, otp: OTP }
         );
-        console.log(response);
+
         if (response.status === 200) {
           authCtx.refreshHandler();
-          authCtx.loginHandler(response.data.authToken);
-          navigate(`/user`);
+          authCtx.loginHandler(response.data.authToken, response.data.admin);
+          navigate("/"); // Same route for both
         }
       } catch (error) {
-        if (error) {
-          console.log(error.response);
-        }
+        console.error("User login error:", error.response?.data);
       }
     }
   };
 
-  const showPasswordOnClick = ()=>{
-    if(showPassword === "password"){
-      setShowPassword("text")
-    }else{
-      setShowPassword("password")
+  const showPasswordOnClick = () => {
+    if (showPassword === "password") {
+      setShowPassword("text");
+    } else {
+      setShowPassword("password");
     }
-  }
+  };
 
   return (
     <>
@@ -129,7 +119,8 @@ export default function Login() {
                   getOtp();
                 }}
                 id="emailHelp"
-                className={styles.getOtpButton}>
+                className={styles.getOtpButton}
+              >
                 Get OTP
               </div>
             )}
@@ -149,7 +140,7 @@ export default function Login() {
                   placeholder="Password"
                   required
                 />
-               <FontAwesomeIcon onClick={showPasswordOnClick} icon={faEye} />
+                <FontAwesomeIcon onClick={showPasswordOnClick} icon={faEye} />
               </>
             )}
             {otp && (

@@ -4,6 +4,7 @@ import { createContext, useMemo, useState, useRef } from "react";
 const AuthContext = createContext({
   token: "",
   userId: "",
+  isAdmin: false,
   refresh: false,
   isLoggedIn: false,
   loginHandler: () => {},
@@ -14,43 +15,58 @@ const AuthContext = createContext({
 export const AuthContextProvider = (props) => {
   const [account, setAccount] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
   const socket = useRef();
 
   const refreshHandler = () => {
     setRefresh(!refresh);
   };
 
-  const loginHandler = (authToken) => {
+  const loginHandler = (authToken, isAdmin) => {
     localStorage.setItem("authToken", authToken);
+    localStorage.setItem("isAdmin", isAdmin.toString()); // Store as string
     setIsLoggedIn(true);
+    setIsAdmin(isAdmin);
   };
 
   const logoutHandler = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("isAdmin");
     setIsLoggedIn(false);
+    setIsAdmin(false);
   };
 
   const token = useMemo(() => {
-    if (localStorage.getItem("authToken")) {
+    const storedToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      const decodedToken = jwtDecode(storedToken);
       setIsLoggedIn(true);
-      return localStorage.getItem("authToken");
+      // Check both JWT and localStorage for consistency
+      const adminStatus =
+        decodedToken.admin || localStorage.getItem("isAdmin") === "true";
+      setIsAdmin(adminStatus);
+      return storedToken;
     }
-  }, [isLoggedIn]);
+    return null;
+  }, [isLoggedIn, refresh]);
 
   const userId = useMemo(() => {
-    if (localStorage.getItem("authToken")) {
-      setIsLoggedIn(true);
-      const decodedToken = jwtDecode(localStorage.getItem("authToken"));
+    const storedToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      const decodedToken = jwtDecode(storedToken);
       return decodedToken.userId;
     }
-  }, [isLoggedIn]);
+    return null;
+  }, [isLoggedIn, refresh]);
+
+  console.log(isAdmin);
 
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn,
+        isAdmin,
         loginHandler,
         logoutHandler,
         token,
