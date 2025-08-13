@@ -12,26 +12,40 @@
   padding: 5rem 1.5rem 1rem;
   position: sticky;
   top: -1em;
-  background-color: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .header h1 {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #222;
+  background: var(---primaryGradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .reloadBtn {
   display: flex;
   align-items: center;
   justify-content: end;
-
-  background: none;
+  background: var(---primaryGradient);
+  color: white;
   border: none;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
   font-weight: 500;
   cursor: pointer;
-  color: #333;
   font-size: 1rem;
+  box-shadow: var(---boxShadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reloadBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(---hoverShadow);
 }
 
 .searchBar {
@@ -45,22 +59,58 @@
   width: 100%;
   max-width: 400px;
   padding: 0.8rem 1rem;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  background: #f6f4f3;
+  border-radius: 25px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
   font-size: 1rem;
   color: #333;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.searchBar input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
 }
 
 .card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background: var(---lightCardColor);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  box-shadow: var(---boxShadow);
   flex-wrap: wrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(---primaryGradient);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(---hoverShadow);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
 }
 
 .cardLeft {
@@ -72,12 +122,20 @@
 
 .icon {
   font-size: 1.5rem;
+  padding: 0.5rem;
+  background: var(---primaryGradient);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .name {
   font-weight: 600;
   font-size: 1.1rem;
   text-transform: lowercase;
+  color: #2d3748;
 }
 
 .cardRight {
@@ -92,6 +150,10 @@
 .price {
   font-weight: 600;
   font-size: 1.1rem;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
 }
 
 .date {
@@ -99,14 +161,20 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  color: #666;
+  color: #718096;
+  background: rgba(113, 128, 150, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
 }
 
 .noResults {
   text-align: center;
   padding: 2rem;
   font-size: 1rem;
-  color: #999;
+  color: #718096;
+  background: var(---lightCardColor);
+  border-radius: 16px;
+  box-shadow: var(---boxShadow);
 }
 
 @keyframes rotateOnce {

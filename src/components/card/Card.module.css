@@ -1,25 +1,55 @@
 .card {
-  width: 190px;
-  height: 254px;
+  width: 200px;
+  height: 280px;
   padding: 2rem 1.5rem;
-  border-radius: 40px;
+  border-radius: 24px;
   background: var(---lightCardColor);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: var(---boxShadow);
-  /* box-shadow: 15px 15px 30px rgb(25, 25, 25), -15px -15px 30px rgb(60, 60, 60); */
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(---primaryGradient);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .notificationDot {
-  /* position: absolute;
-  right: 2em; */
-  transition: transform 0.2s ease;
-  width: 7px;
-  height: 7px;
-  background-color: rgba(255, 0, 0, 0.642);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 12px;
+  height: 12px;
+  background: var(---secondaryGradient);
   border-radius: 50%;
-  transform: translateY(100%);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .card_info {
@@ -28,32 +58,43 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card_info div:not(:first-child) {
   font-weight: 500;
+  color: #4a5568;
 }
 
 /*Image*/
 .card_avatar {
   --size: 60px;
-  background: linear-gradient(to top, #f1e1c1 0%, #fcbc97 100%);
+  background: var(---primaryGradient);
   width: var(--size);
   height: var(--size);
   border-radius: 50%;
-  transition: transform 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.card_avatar::before {
+  content: '👤';
+  color: white;
 }
 
 /*Card footer*/
 .card_social {
-  transform: translateY(200%);
+  transform: translateY(150%);
   display: flex;
   justify-content: space-around;
   width: 100%;
   opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card_social__item {
@@ -62,49 +103,58 @@
 
 .card_social__item svg {
   display: block;
-  height: 18px;
-  width: 18px;
-  fill: #515f65;
+  height: 20px;
+  width: 20px;
+  fill: #667eea;
   cursor: pointer;
-  transition: fill 0.2s ease, transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 8px;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.1);
 }
 
 /*Text*/
 .card_title {
-  color: #333;
+  color: #2d3748;
   font-size: 1.5em;
   font-weight: 700;
   line-height: 2rem;
+  text-align: center;
 }
 
 .card_subtitle {
-  color: #859ba8;
+  color: #718096;
   font-size: 0.8em;
+  text-align: center;
+  margin: 0.2em 0;
 }
 
 /*Hover*/
 .card:hover {
-  box-shadow: 0 8px 50px #23232333;
+  transform: translateY(-8px);
+  box-shadow: var(---hoverShadow);
 }
 
-.card:hover .notificationDot {
-  transform: translateY(-5%);
+.card:hover::before {
+  transform: scaleX(1);
 }
 
 .card:hover .card_info {
-  transform: translateY(-5%);
+  transform: translateY(-8px);
 }
 
 .card:hover .card_social {
-  transform: translateY(50%);
+  transform: translateY(0);
   opacity: 1;
 }
 
 .card_social__item a svg:hover {
-  fill: #232323;
-  transform: scale(1.1);
+  fill: #764ba2;
+  transform: scale(1.2);
+  background: rgba(102, 126, 234, 0.2);
 }
 
 .card_avatar:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
 }

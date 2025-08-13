@@ -2,22 +2,30 @@
   width: 100%;
   padding: 1rem;
   box-sizing: border-box;
-  /* background-color: #007bff; */
   position: fixed;
   bottom: 0;
+  z-index: 1000;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
   padding: 1rem 1rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.271);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
   max-width: 1000px;
   margin: auto;
   gap: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .leftSection,
@@ -25,6 +33,7 @@
 .rightSection {
   display: flex;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .centerSection {
@@ -41,13 +50,18 @@
 
 .icon {
   font-size: 1.4rem;
-  color: #333;
-  transition: all 0.2s ease;
+  color: #667eea;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.5rem;
+  border-radius: 12px;
+  background: rgba(102, 126, 234, 0.1);
 }
 
 .icon:hover {
-  transform: scale(1.1);
-  color: #007bff;
+  transform: scale(1.2) rotate(5deg);
+  color: #764ba2;
+  background: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .customButtonStyle {

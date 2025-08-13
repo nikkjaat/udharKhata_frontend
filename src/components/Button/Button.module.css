@@ -21,7 +21,7 @@
 .btn_18 {
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: button;
-  background-color: #d91717;
+  background: var(---secondaryGradient);
   background-image: none;
   color: #ffffff;
   cursor: pointer;
@@ -37,11 +37,14 @@
   -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
   padding: 0;
   text-transform: uppercase;
+  box-shadow: var(---boxShadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .btn_17 {
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: button;
-  background-color: #000;
+  background: var(---primaryGradient);
   background-image: none;
   color: #fff;
   cursor: pointer;
@@ -57,14 +60,18 @@
   -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
   padding: 0;
   text-transform: uppercase;
+  box-shadow: var(---boxShadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn_18:disabled {
   cursor: default;
+  opacity: 0.6;
 }
 
 .btn_17:disabled {
   cursor: default;
+  opacity: 0.6;
 }
 
 .btn_18:-moz-focusring {
@@ -98,17 +105,28 @@
 }
 
 .btn_18 {
-  border-radius: 99rem;
+  border-radius: 16px;
   border-width: 2px;
   /* padding: 0.8rem 3rem; */
   z-index: 0;
 }
 
 .btn_17 {
-  border-radius: 99rem;
+  border-radius: 16px;
   border-width: 2px;
   /* padding: 0.8rem 3rem; */
   z-index: 0;
+}
+
+.btn_18:hover,
+.btn_17:hover {
+  transform: translateY(-2px);
+  box-shadow: var(---hoverShadow);
+}
+
+.btn_18:active,
+.btn_17:active {
+  transform: translateY(0);
 }
 
 .btn_18,
@@ -116,6 +134,7 @@
   overflow: hidden;
   position: relative;
 }
+
 .btn_17,
 .btn_17 .text_container {
   overflow: hidden;
@@ -126,6 +145,7 @@
   display: block;
   mix-blend-mode: difference;
 }
+
 .btn_17 .text_container {
   display: block;
   mix-blend-mode: difference;
@@ -135,6 +155,7 @@
   display: block;
   position: relative;
 }
+
 .btn_17 .text {
   display: block;
   position: relative;
@@ -144,6 +165,7 @@
   -webkit-animation: move-up-alternate 0.3s forwards;
   animation: move-up-alternate 0.3s forwards;
 }
+
 .btn_17:hover .text {
   -webkit-animation: move-up-alternate 0.3s forwards;
   animation: move-up-alternate 0.3s forwards;
