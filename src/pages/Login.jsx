@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import styles from "./Login.module.css";
-import Navbar from "../components/navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import "./Login.css"; // Make sure to create this file with the CSS above
 
 export default function Login() {
   const authCtx = useContext(AuthContext);
@@ -65,7 +64,7 @@ export default function Login() {
         if (response.status === 200) {
           authCtx.refreshHandler();
           authCtx.loginHandler(response.data.authToken, response.data.admin);
-          navigate("/"); // Same route for both
+          navigate("/");
         }
       } catch (error) {
         console.error("Admin login error:", error.response?.data);
@@ -80,7 +79,7 @@ export default function Login() {
         if (response.status === 200) {
           authCtx.refreshHandler();
           authCtx.loginHandler(response.data.authToken, response.data.admin);
-          navigate("/"); // Same route for both
+          navigate("/");
         }
       } catch (error) {
         console.error("User login error:", error.response?.data);
@@ -89,92 +88,85 @@ export default function Login() {
   };
 
   const showPasswordOnClick = () => {
-    if (showPassword === "password") {
-      setShowPassword("text");
-    } else {
-      setShowPassword("password");
-    }
+    setShowPassword(showPassword === "password" ? "text" : "password");
   };
 
   return (
     <>
       <Navbar />
-      <div className={`${styles.container} container`}>
-        <form onSubmit={submitHandler}>
-          <div style={{ position: "relative" }} className="form-group">
-            <label htmlFor="exampleInputNumber">Mobile Number</label>
+      <div className="login-container">
+        <form className="login-form" onSubmit={submitHandler}>
+          <h2 className="login-title">Welcome Back</h2>
+          
+          <div className="form-group">
+            <label className="form-label" htmlFor="mobileNumber">Mobile Number</label>
             <input
-              onChange={(e) => {
-                inputHandler("number", e.target.value);
-              }}
+              onChange={(e) => inputHandler("number", e.target.value)}
               type="number"
-              className={styles.input}
-              id="exampleInputNumber"
-              placeholder="Enter Number"
+              className="form-input"
+              id="mobileNumber"
+              placeholder="Enter your mobile number"
             />
             {otpBtn && (
-              <div
-                disabled={true}
-                onClick={() => {
-                  getOtp();
-                }}
-                id="emailHelp"
-                className={styles.getOtpButton}
+              <button
+                type="button"
+                onClick={getOtp}
+                className="get-otp-btn"
               >
                 Get OTP
-              </div>
+              </button>
             )}
           </div>
 
           <div className="form-group">
             {admin && (
               <>
-                <label htmlFor="exampleInputPassword1">Password</label>
+                <label className="form-label" htmlFor="password">Password</label>
                 <input
-                  onChange={(e) => {
-                    inputHandler("password", e.target.value);
-                  }}
+                  onChange={(e) => inputHandler("password", e.target.value)}
                   type={showPassword}
-                  className={styles.input}
-                  id="exampleInputPassword1"
-                  placeholder="Password"
+                  className="form-input"
+                  id="password"
+                  placeholder="Enter your password"
                   required
                 />
-                <FontAwesomeIcon onClick={showPasswordOnClick} icon={faEye} />
+                <FontAwesomeIcon 
+                  onClick={showPasswordOnClick} 
+                  icon={showPassword === "password" ? faEye : faEyeSlash} 
+                  className="password-toggle"
+                />
               </>
             )}
             {otp && (
               <>
-                <label htmlFor="exampleInputPassword1">OTP</label>
+                <label className="form-label" htmlFor="otp">OTP</label>
                 <input
-                  onChange={(e) => {
-                    inputHandler("otp", e.target.value);
-                  }}
+                  onChange={(e) => inputHandler("otp", e.target.value)}
                   type="number"
-                  className={styles.input}
-                  id="exampleInputPassword1"
-                  placeholder="Enter OTP"
+                  className="form-input"
+                  id="otp"
+                  placeholder="Enter OTP received"
                 />
               </>
             )}
           </div>
-          <div class="form-check">
+          
+          <div className="admin-checkbox">
             <input
               onChange={adminHandler}
               type="checkbox"
-              class="form-check-input"
-              id="exampleCheck1"
+              id="adminCheck"
             />
-            <label class="form-check-label" for="exampleCheck1">
-              I'm Admin
-            </label>
+            <label htmlFor="adminCheck">I'm an Admin</label>
           </div>
-          <div className={styles.signupLink}>
-            <Link to={"/signup"}>Signup</Link>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
+          
+          <button type="submit" className="submit-btn">
+            Login
           </button>
+          
+          <div className="signup-link">
+            Don't have an account? <Link to="/signup">Sign up</Link>
+          </div>
         </form>
       </div>
     </>
