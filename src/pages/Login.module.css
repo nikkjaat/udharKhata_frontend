@@ -1,9 +1,8 @@
-.container {
+/* Login Form Specific Styles */
+.login-container {
   width: 100vw;
-  padding-top: 9rem;
-  scroll-behavior: auto;
-  min-width: 20rem !important;
-  overflow: hidden !important;
+  padding-top: 5rem;
+  min-width: 20rem;
   background: var(---lightBodyColor);
   min-height: 100vh;
   display: flex;
@@ -11,115 +10,197 @@
   justify-content: center;
 }
 
-.container form {
-  background: rgba(255, 255, 255, 0.95);
+.login-form {
+  background: var(---lightCardColor);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 2em;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 2.5rem;
   border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05);
-  max-width: 400px;
-  width: 100%;
+  box-shadow: var(---hoverShadow);
+  max-width: 420px;
+  width: 90%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-.container form:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15), 0 12px 20px rgba(0, 0, 0, 0.1);
+.login-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: var(---primaryGradient);
 }
 
-.container .input {
-  margin: 0 auto;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+.login-form:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 2rem;
   color: #2d3748;
-  padding: 0.9em;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: var(---primaryGradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-label {
+  color: #4a5568;
   font-weight: 600;
-  height: 2.1rem;
-  background: rgba(102, 126, 234, 0.05);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 0.95rem;
+}
+
+.form-input {
+  margin: 0 auto;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #2d3748;
+  padding: 0.9rem 1rem;
+  font-weight: 500;
+  height: 2.8rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(102, 126, 234, 0.3);
   border-radius: 12px;
   width: 100%;
   outline: none !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
 }
 
-.container .input:focus {
+.form-input:focus {
   border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   transform: scale(1.02);
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.95);
 }
 
-.container input::placeholder {
-  color: rgba(102, 126, 234, 0.6);
-  outline: none !important;
+.form-input::placeholder {
+  color: rgba(102, 126, 234, 0.5);
+  font-weight: 400;
 }
 
-.container label {
-  color: #2d3748;
-  font-weight: bold;
-  user-select: none;
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
-.signupLink {
-  float: right;
-  margin-top: 1rem;
-}
-
-.signupLink a {
+.password-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 2.4rem;
   color: #667eea;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.signupLink a:hover {
+.password-toggle:hover {
   color: #764ba2;
-  transform: translateY(-1px);
+  transform: scale(1.1);
 }
 
-.container form button {
-  margin-top: 1rem;
+.admin-checkbox {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.admin-checkbox input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.5rem;
+  accent-color: #667eea;
+  cursor: pointer;
+}
+
+.admin-checkbox label {
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.submit-btn {
+  margin-top: 1.5rem;
   background: var(---primaryGradient);
   color: white;
   border: none;
   border-radius: 12px;
-  padding: 0.8rem 1.5rem;
+  padding: 1rem;
   font-weight: 600;
   width: 100%;
   box-shadow: var(---boxShadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1rem;
+  letter-spacing: 0.5px;
 }
 
-.container form button:hover {
-  transform: translateY(-2px);
+.submit-btn:hover {
+  transform: translateY(-3px);
   box-shadow: var(---hoverShadow);
+  background: var(---primaryGradient);
 }
 
-.getOtpButton {
-  padding: 0 0.3em;
-  z-index: 10;
+.get-otp-btn {
   position: absolute;
-  top: 4.6rem;
-  border-radius: 8px;
-  right: 0;
+  top: 2.4rem;
+  right: 0.5rem;
   cursor: pointer;
   background: var(---primaryGradient);
   color: white;
   font-weight: 600;
   padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  border: none;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
   transition: all 0.3s ease;
 }
 
-.getOtpButton:hover {
-  transform: translateY(-1px);
+.get-otp-btn:hover {
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.container form button:disabled {
-  cursor: no-drop;
-  opacity: 0.6;
+.signup-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #4a5568;
 }
+
+.signup-link a {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.signup-link a:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+/* Animation for form elements */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+.admin-checkbox { animation-delay: 0.3s; }
+.submit-btn { animation-delay: 0.4s; }
+.signup-link { animation-delay: 0.5s; }
